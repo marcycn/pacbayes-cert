@@ -1,0 +1,1 @@
+These are the ORIGINAL (pre-fix) results. They use n_bound=full-dataset (P0-1), single delta_test counted as 99% (P0-5), buggy MC aggregation (P0-6) and non-functional seeds (P0-7). RETAINED FOR AUDIT ONLY — do not cite. Superseded by results/raw (schema 2.0).

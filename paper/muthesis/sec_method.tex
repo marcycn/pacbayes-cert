@@ -1,0 +1,310 @@
+\section{Experimental Method}\label{sec:method}
+
+\subsection{Datasets and preprocessing}\label{sec:datasets}
+
+We use three standard image-classification benchmarks: \textbf{MNIST}
+\parencite{lecun1998} (60{,}000 train / 10{,}000 test, $28\times28$ greyscale, 10
+classes), \textbf{Fashion-MNIST} \parencite{xiao2017} (same shape, harder
+classes), and \textbf{CIFAR-10} \parencite{krizhevsky2009} (50{,}000 / 10{,}000,
+$32\times32$ colour, 10 classes). The only preprocessing is conversion to a
+tensor and per-channel standardisation with the published training statistics:
+mean $0.1307$ and standard deviation $0.3081$ for MNIST, $0.2860$ and
+$0.3530$ for Fashion-MNIST, and $(0.4914,0.4822,0.4465)$ and
+$(0.2023,0.1994,0.2010)$ for CIFAR-10, applied to train and test alike. We
+avoid augmentation, resizing and pretraining so that the certificate reflects
+the PAC-Bayes machinery rather than auxiliary engineering, and treat the
+cross-dataset comparison as descriptive only, since architecture and compute
+budget change across datasets (Section~\ref{sec:evaluation}).
+
+\subsection{Architectures}\label{sec:arch}
+
+Two families of probabilistic network are used, both carrying a diagonal-Gaussian
+weight distribution with a mean and a per-weight scale for every parameter, so
+that a probabilistic network holds twice as many parameters as its deterministic
+counterpart (Table~\ref{tab:arch}). Every hidden activation is a ReLU, the output
+is a log-softmax over the ten classes, and no batch normalisation, weight decay or
+learning-rate schedule is used anywhere. Dropout appears only in the deterministic
+network that builds a learnt prior, where it limits prior over-fitting to $S_0$;
+the certified probabilistic networks have none, since the weight noise already
+regularises them and a stochastic mask would add a second, uncertified source of
+randomness to the Monte-Carlo estimate. The prior network shares the architecture
+of its probabilistic counterpart, so its trained weights can initialise the prior
+mean directly.
+
+\begin{table}[h]\centering\small
+\caption{Layer specifications of the five network variants used. Convolutions are written
+as (input channels~$\to$~output channels, kernel, padding), and \texttt{MaxPool}
+is $2\times2$ with stride $2$. Parameter counts are for the deterministic
+network; the probabilistic counterpart carries twice as many, one mean and one
+scale per weight.}\label{tab:arch}
+\begin{tabular}{@{}l l r@{}}
+\toprule
+Network & Layers & Parameters \\
+\midrule
+FCN
+  & $784\!\to\!600\!\to\!600\!\to\!600\!\to\!10$, fully connected
+  & $1{,}198{,}210$ \\
+(MNIST, Fashion-MNIST) & & \\[3pt]
+CNN, 4 layers
+  & \begin{tabular}[t]{@{}l@{}}
+    Conv($1\!\to\!32$, $3\!\times\!3$, pad~$0$), Conv($32\!\to\!64$, $3\!\times\!3$, pad~$0$),\\
+    MaxPool, flatten ($9216$), FC $9216\!\to\!128$, FC $128\!\to\!10$
+    \end{tabular}
+  & $1{,}199{,}882$ \\
+(MNIST, Fashion-MNIST) & & \\[3pt]
+CNN, 9 layers
+  & \begin{tabular}[t]{@{}l@{}}
+    Conv($3\!\to\!32$), Conv($32\!\to\!64$), MaxPool,\\
+    Conv($64\!\to\!128$), Conv($128\!\to\!128$), MaxPool,\\
+    Conv($128\!\to\!256$), Conv($256\!\to\!256$), MaxPool,\\
+    flatten ($4096$), FC $4096\!\to\!1024\!\to\!512\!\to\!10$
+    \end{tabular}
+  & $5{,}851{,}338$ \\
+(CIFAR-10) & & \\[3pt]
+CNN, 13 layers
+  & \begin{tabular}[t]{@{}l@{}}
+    channels $32,64$ | $128,128$ | $256,256,256$ | $512,512,512$,\\
+    MaxPool after each group; flatten ($2048$),\\
+    FC $2048\!\to\!1024\!\to\!512\!\to\!10$
+    \end{tabular}
+  & $10{,}244{,}042$ \\
+(CIFAR-10) & & \\[3pt]
+CNN, 15 layers
+  & \begin{tabular}[t]{@{}l@{}}
+    channels $32,64$ | $128,128$ | $256,256,256,256$ | $512,512,512,512$,\\
+    MaxPool after each group; flatten ($2048$),\\
+    FC $2048\!\to\!1024\!\to\!512\!\to\!10$
+    \end{tabular}
+  & $13{,}193{,}930$ \\
+(CIFAR-10) & & \\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\footnotesize All convolutions are $3\!\times\!3$. The 4-layer network uses no
+padding; the three CIFAR-10 networks pad by $1$. Dropout in the prior network is
+channel-wise for the 4- and 9-layer architectures and element-wise for the 13-
+and 15-layer ones; both follow the reference implementation, which differs
+between them.
+\end{table}
+
+\subsection{Design choices}\label{sec:choices}
+
+Every design choice prioritises analysing the certificate over maximising
+accuracy. Four settle the study: every certificate is reported through the
+PAC-Bayes-kl inversion \parencite{maurer2004,seeger2002}, the tightest of the
+classical statements, so that the objectives differ only in the posterior they
+produce; the learnt prior takes the disjoint-subset route rather than the
+differential-privacy route of \textcite{dziugaite2018}, because its independence
+condition is directly verifiable, at the cost of a smaller bound set; the
+posterior is a diagonal Gaussian, which keeps the KL a sum of per-weight closed
+forms; and the reference architectures are used without augmentation,
+pretraining or a learning-rate schedule. The departures from the reference are
+compute-driven rather than chosen: a per-cell grid search of its size, over
+five seeds, three datasets and five architectures, is beyond the compute here, so
+we fix one configuration and take a smaller Monte-Carlo budget, then measure that
+budget rather than assume it (Section~\ref{sec:mc}). Appendix~\ref{app:choices}
+gives the alternatives considered and rejected in each case.
+
+\subsection{Corrected pipeline}\label{sec:pipeline}
+
+All experiments use a clean reimplementation that makes the certificate
+bookkeeping explicit and testable. It makes five tested changes to the reference
+pipeline, three of which alter the reported certificate value.
+Figure~\ref{fig:audit} places each on the stage it acts on.
+
+\begin{figure}[t]\centering
+\includegraphics[width=\linewidth]{fig_audit_map.pdf}
+\caption{Where each correction acts. The border style carries the distinction
+the list cannot: three change the certificate's value, one affects only
+reproducibility, and one decides whether the theorem's independence condition
+holds at all. The sample count is drawn against two stages because it is used at
+both, entering the split and again the inversion that reports the
+bound.}\label{fig:audit}
+\end{figure}
+\begin{enumerate}
+\item \textbf{Bound-set sample count.} The denominator $n_{\mathrm b}$
+  in~\eqref{eq:pbkl} is $|S_{\mathrm b}|$, the held-out bound subset, not the
+  size of the underlying dataset.
+\item \textbf{Joint confidence.} The Monte-Carlo and PAC-Bayes steps use separate
+  failure probabilities $\delta_{\mathrm{MC}}=\delta_{\mathrm{PAC}}=0.005$,
+  combined by a union bound to a reported confidence of $0.99$, rather than reusing
+  one $\delta$ across both inversions.
+\item \textbf{Monte-Carlo aggregation.} The empirical Gibbs risk is accumulated
+  example-weighted over the bound set and averaged over exactly $m$ samples,
+  fixing an off-by-one in the original per-batch averaging.
+\end{enumerate}
+The fourth affects reproducibility; the fifth affects whether the learnt-prior
+construction satisfies the theorem's independence condition at all, though
+neither changes the certificate arithmetic once the split is fixed:
+\begin{enumerate}\setcounter{enumi}{3}
+\item \textbf{Seed control.} Five independent seed streams (split, model, loader,
+  Monte-Carlo, evaluation) are derived from one base seed, so the seed genuinely
+  changes the split and the model. The evaluation stream is separate so that the
+  descriptive test errors, which also sample posterior weights, do not inherit
+  the RNG state the certificate's $m$ draws left behind: otherwise raising the
+  Monte-Carlo budget would move a test error that does not depend on it.
+\item \textbf{Label-independent partition.} The subset $S$ and its split into
+  $S_0$ and $S_{\mathrm b}$ are drawn by a uniform random permutation rather than
+  by taking a prefix. We first replaced the prefix split with a class-stratified
+  one, then rejected that. Its class quotas are taken over the whole of $S$, which
+  contains $S_{\mathrm b}$, so $S_0$ comes to depend on bound-set labels; and a
+  sample with fixed class quotas is not the i.i.d.\ draw the bound assumes.
+\end{enumerate}
+All five rest on the explicit, saved bookkeeping of
+Section~\ref{sec:compute}, which also keeps the six notions of error distinct:
+the raw Monte-Carlo $0$--$1$ estimate, the corrected empirical Gibbs risk, the
+certificate, and the stochastic, posterior-mean and ensemble test errors, so the
+certified quantity is never silently conflated with a test error.
+
+Each test targets a specific correction rather than basic pipeline execution, and
+fixes a concrete input and an expected output rather than a plausible range: the
+split tests assert the counts $6{,}000$ and $3{,}000$ at a tenth of the data, the
+aggregation test asserts agreement to $10^{-9}$ between a single batch and a
+ragged batching of a deterministic posterior, and the confidence test asserts
+$0.99$ to $10^{-12}$ rather than $1-\delta$. Appendix~\ref{app:tests} lists all
+forty-two with their tolerances.
+A test that never fails defends nothing, so we checked that each bites rather
+than assuming it: disabling the prior-selection union in the source makes two of
+its five tests fail, and letting one $S_0$ example into the bound loader makes
+two of the loader tests fail. They check the bookkeeping around the bound, not the bound itself.
+
+\subsection{Training protocol}\label{sec:protocol}
+
+Both the prior network and the posterior are trained by SGD with momentum and no
+weight decay. The prior network minimises the negative log-likelihood of its
+labels on $S_0$; the posterior minimises the objective of
+Section~\ref{sec:objectives}. Table~\ref{tab:hparams} lists every setting, and one training configuration is
+shared by every cell: its entries do
+not vary with the dataset, the architecture, the objective or the prior family.
+Only the evaluation batch cap differs, and for memory rather than training
+reasons: the bound set is scored in a single batch for the FCN cells, in batches
+of $2{,}500$ for the two CNN cells on $28\times28$ data, and $12{,}500$ on
+CIFAR-10, so that the deeper networks' Monte-Carlo evaluation fits in device
+memory. The cap changes how the estimate is batched, not what it estimates
+(Section~\ref{sec:confidence}).
+
+\begin{table}[h]\centering\small
+\caption{The training configuration shared by every cell.}\label{tab:hparams}
+\begin{tabular}{@{}llll@{}}
+\toprule
+Optimiser & SGD, no weight decay & Prior scale $\sigma_0$ & $0.03$ \\
+Posterior learning rate & $5\times10^{-3}$ & Prior distribution & Gaussian \\
+Posterior momentum & $0.95$ & $p_{\min}$ & $10^{-5}$ \\
+Prior learning rate & $5\times10^{-3}$ & $\delta_{\mathrm{train}}$ & $0.025$ \\
+Prior momentum & $0.99$ & $\delta_{\mathrm{MC}}$, $\delta_{\mathrm{PAC}}$ & $0.005$ each \\
+Prior dropout & $0.2$ & Monte-Carlo samples $m$ & $2{,}000$ \\
+Batch size & $250$ & Ensemble samples $L$ & $100$ \\
+Prior epochs & $70$ & Prior/bound split & $0.5$ \\
+Posterior epochs & $100$ & KL penalty $\beta$ (all objectives) & $0.1$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Since one fixed configuration replaces the reference's per-cell grid search, two
+of these values were not simply copied.
+The learning rates, momenta, $\sigma_0$, $p_{\min}$, batch size and
+$\delta_{\mathrm{train}}$ are those the reference reports for MNIST, and the epoch
+counts follow its statement that the networks converge by roughly $70$ epochs. One
+value had to be recovered rather than copied: the reference implementation's
+example script ships a posterior learning rate of $10^{-3}$, at which our first
+grid gave a stochastic test error about four times the published one, whereas the
+reference's text identifies $10^{-3}$ as converging slowly and $5\times10^{-3}$ as
+the working value. We resolved that in favour of the text, but what prompted us
+to look was a test-set discrepancy, so the learning-rate choice was indirectly
+informed by the test set. It costs the certificate nothing, since it acts only on
+the posterior, but it does mean the reported test errors are not a wholly
+untouched estimate. Apart from that, the only sweep we ran ourselves was over the prior scale,
+$\sigma_0\in\{0.01,0.02,0.05\}$ on MNIST at a reduced budget: the certificate was
+almost unchanged across $[0.02,0.05]$ and degraded at $0.01$, so $\sigma_0=0.03$
+sits in a flat region rather than at a tuned optimum. Those comparisons read
+certificates computed on the bound set, so the prior was selected using
+$S_{\mathrm b}$, and every certificate we report is corrected for that by the
+union of Section~\ref{sec:confidence}. The reference grid-searches the same
+parameter per cell without any such correction. This remains an explicitly
+\emph{reduced-compute protocol}: the reference grid-searches learning rate, prior
+scale and dropout per cell. Section~\ref{sec:mc} measures the effect of the
+smaller $m$; the absent grid search is not quantified and is carried as a threat
+to validity (Section~\ref{sec:evaluation}).
+
+\subsection{Seeds and statistics}\label{sec:seeds}
+
+Each headline cell is run over five base seeds ($0$--$4$), each genuinely
+changing the data split, the model initialisation, the loader order and the
+Monte-Carlo draws. Main-table quantities are means~$\pm$~standard deviations over
+seeds, with per-seed values in the appendix. The across-seed variability of the
+training procedure is not a PAC-Bayes confidence interval.
+
+\subsection{Sensitivity and controlled-difficulty studies}\label{sec:studies}
+
+Three further studies use the saved checkpoints. The \textbf{Monte-Carlo
+sensitivity} curve isolates the effect of the sample budget $m$ on a fixed
+posterior. At each budget
+$m\in\{1{,}000,2{,}000,5{,}000,10{,}000,50{,}000,150{,}000\}$, up to the
+reference's, we genuinely re-draw the Monte-Carlo estimate on the checkpoint and
+recompute the certificate. Since the raw mean is an unbiased estimate of the
+Gibbs risk, the only systematic route by which $m$ enters is the finite-MC slack
+$\log(2/\delta_{\mathrm{MC}})/m$ of the first KL inversion, so we also compute an
+analytical curve with the estimate held at its $m=1{,}000$ value; the two
+agreeing is what shows the movement is slack and not a shifting estimate. The \textbf{small-data} sweep retrains the MNIST
+FCN $f_{\text{quad}}$ learnt-prior cell on $100$, $50$, $20$ and $10\%$ of the
+training data, with the corrected $n_{\mathrm b}$. The \textbf{controlled-difficulty} study
+applies label noise $\eta\in\{0,0.1,0.2,0.4\}$ to the same cell with
+architecture, sample size and compute held fixed.
+
+The noise is symmetric: each example of $S$ is independently marked with
+probability $\eta$ and a marked label is replaced by one drawn uniformly from the
+nine \emph{other} classes, so a corrupted label is never the original and the
+expected fraction of wrong labels is $\eta$. It is applied once, to $S$ as a whole
+and before the prior/bound split, so $S_0$ and $S_{\mathrm b}$ are corrupted at
+the same rate and the prior network also trains on noisy labels; the test set is
+untouched, and the noise draw has its own seed. The certificate then bounds the
+Gibbs risk under the
+noisy-label distribution, whereas the test errors in the same rows are measured
+against clean labels, so the two are not comparable. All three studies use the
+same five seeds as the headline matrix.
+
+\subsection{Compute and reproducibility}\label{sec:compute}
+
+Experiments run on two NVIDIA RTX 3080 cards (20\,GB each) under PyTorch 2.5.1
+and CUDA 12.4 \parencite{paszke2019}, and the full study comprises $115$ runs. Results are
+aggregated from the per-run records into a single processed registry, which
+de-duplicates by the full configuration and records the status and any exclusion
+reason of every run, so that failed or non-finite runs are dropped with a stated
+reason rather than silently. One criterion beyond the mechanical ones is the only
+exclusion any run triggers. A
+learnt-prior cell whose prior network never leaves the chance-level plateau is
+not an instance of the protocol, since the posterior is then initialised at an
+untrained prior, so we exclude a learnt-prior run whose prior network finishes
+within five percentage points of chance, which for ten classes is $0.90$, on
+$S_0$, the subset it was trained on. Scoring the screen there rather than on the
+test set keeps it a training diagnostic: it consults no held-out data and exists
+before any certificate does, so it cannot be tuned against a result. Separation
+is wide: prior networks that trained reach at most $0.228$ on $S_0$, and the two
+that did not sit at $0.866$ and $0.899$. Every table and figure reporting
+experimental results in this dissertation is produced from that registry;
+Figures~\ref{fig:chain}--\ref{fig:audit} are explanatory schematics rather than
+results figures, and the pre-correction outputs are retained separately as an
+archival audit record and are not used in any reported result.
+
+This provenance is what allows each reported certificate to be recomputed and
+checked independently. Each run stores all of its
+seeds, the sample accounting ($n_{\mathrm{total}}$, $n_{\mathrm{selected}}$,
+$n_{\mathrm{prior}}$, $n_{\mathrm{posterior}}$, $n_{\mathrm b}$), the three
+confidence parameters, the raw Monte-Carlo estimate, the KL and the resulting
+certificate, alongside the library versions, the hardware and the software version.
+Any certificate can therefore be recomputed without re-training, which is how the
+prior-selection union of Section~\ref{sec:confidence} was applied to all runs
+after the fact. The registry carries the corrected and uncorrected values side by
+side, and recomputing
+the uncorrected column from the stored ingredients reproduces all $115$ recorded
+certificates to $10^{-9}$.
+
+The artefact is laid out so that each of those claims can be checked from a
+command. One YAML file per headline cell fixes every entry of
+Table~\ref{tab:hparams}, and the published values used in Table~\ref{tab:repro}
+are held in a separate reference file annotated with the source column each was
+read from, so the comparison cannot drift onto a different column of the
+reference table. Appendix~\ref{app:repro} gives the directory layout, the
+commands that regenerate a run, the matrix, the tests and every derived output,
+and the pinned environment.

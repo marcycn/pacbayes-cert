@@ -1,0 +1,7 @@
+# Data-dependent PAC-Bayes priors via differential privacy
+
+- **Authors:** Gintare Karolina Dziugaite, Daniel M. Roy
+- **Venue/Year:** NeurIPS 2018 (Advances in Neural Information Processing Systems 31), pp. 8440-8450 (arXiv:1802.09583) (2018)
+- **ID:** arXiv:1802.09583 — ✓ verified
+- **Contribution:** Shows an epsilon-differentially-private (DP) data-dependent prior yields a valid PAC-Bayes bound (accounting for data reuse), and that such priors produce tighter non-vacuous bounds on MNIST than data-free Gaussian priors where distribution-independent priors are vacuous. Constructs a DP isotropic-Gaussian prior by optimizing local entropy via SGLD, connecting to Entropy-SGD. Also shows some non-private data-dependent mechanisms give valid bounds. This legitimates the use of data-dependent priors in the PAC-Bayes framework that Pérez-Ortiz 2021 exploit via their 'Learnt' priors.
+- **Relevance to our RQ:** Theoretical foundation for the data-dependent/learnt prior axis central to H4. PBB's 'Learnt' prior (subset/hold-out scheme) is a non-DP practical instance of the data-dependent-prior idea whose validity this DP route provides the alternative for; we should compare both prior-creation mechanisms, which is a genuine (if narrow) contribution since the Pérez-Ortiz line largely uses subset/hold-out rather than DP. Informs prior-design experiments and transfer/reduced-data ablations. Source of the D&R2018 numbers in Pérez-Ortiz Table 2.

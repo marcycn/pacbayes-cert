@@ -1,0 +1,68 @@
+\section{Conclusion}\label{sec:conclusion}
+
+This dissertation partially reproduced selected PAC-Bayes-with-Backprop cells on
+MNIST under a reduced-compute protocol, extended them to Fashion-MNIST and
+CIFAR-10, and re-implemented the certificate-computation pipeline with corrected
+bookkeeping.
+
+On reproduction, the corrected pipeline matches the reference's MNIST stochastic
+test errors to within $\ReproStochDeltaAbsMax$ on all four target cells, with
+the sign of the difference varying between them. The certificates are uniformly
+looser; the Monte-Carlo sweep accounts for roughly half of the gap on the cell
+examined in detail, and the rest coincides with protocol differences, chiefly the
+absent per-cell grid search, that we identified but did not measure. The
+reproduction is therefore complete on the predictive metrics and partial on the
+certificate. Decomposing it revealed effects that test error alone does not: it
+separates into the empirical Gibbs risk and a complexity term scaling with
+$\mathrm{KL}/n_{\mathrm b}$, and a learnt prior tightens it in every paired
+comparison we ran, though not by the same route each time. Measured
+on the scale that enters the bound, $\mathrm{KL}/n_{\mathrm b}$, the complexity
+term is the larger route only on MNIST; on Fashion-MNIST the two routes are
+comparable, and on CIFAR-10 the learnt prior pays \emph{more} complexity and wins
+entirely on empirical risk. That decomposition is what makes the certificate
+sensitive in the ways the sensitivity analysis probes --- to the prior, the
+bound-set size, the Monte-Carlo budget and the seed --- and it is where the audit
+proves its worth, since correcting the bound-set sample count alone loosens the
+small-data certificates substantially. Difficulty was
+therefore tested in the one design that controls for it: with everything but the
+label noise held constant, the noise raises the empirical-risk term and, through
+the PAC-Bayes-kl inversion, the certificate, so the effect can be attributed to
+the perturbation itself, with the proviso that the certified quantity is then the
+Gibbs risk on the noisy-label distribution.
+
+Together these results show that PAC-Bayes-with-Backprop delivered formally
+non-vacuous certificates in all $23$ reported cells, none reaching $1$ --- a
+statement about runs that trained, since the $15$-layer cell is the mean of its
+three converged seeds. Non-vacuous and useful are different thresholds, though:
+the loosest, CIFAR-10 under $f_{\text{bbb}}$, is
+$\CertCifaronezeroCnnBbbLearnt$, certifying almost nothing a practitioner would
+act on, and tight certificates arrived only on the easier benchmarks. In all
+three paired $f_{\text{quad}}$ controls the data-dependent prior produced a large
+tightening --- not the largest effect in the study, since $40\%$ label noise
+moves the same MNIST certificate about twice as far.
+The value of any such number depends on the implementation that produced it, and
+several conventions in the reference required correction in our
+re-implementation. The main contribution of the project is that corrected, tested
+pipeline: reliable certificates require correct sample counts, confidence
+accounting, Monte-Carlo aggregation and seed handling, together with enough
+provenance to re-derive each reported value.
+
+The clearest direction for further work is to close the gap
+between the certified Gibbs classifier and the deterministic predictor actually
+deployed. The C-bound of \textcite{lacasse2006,germain2015} relates the
+majority-vote risk to the mean and variance of the Gibbs risk, and adapting it to
+the objectives used here would give a formal guarantee for a deterministic
+predictor. Which one matters: the C-bound governs the majority vote induced by
+$Q$, the limit of the ensemble predictor, not the posterior-mean network whose
+error we report, so a guarantee for the latter would remain open. On
+the empirical side, the full-budget re-draw reported here removes one identified
+source of the discrepancy but not the absent grid search, which is what a
+reference-matched hyper-parameter search would settle.
+The CIFAR-10 results invite two extensions: the deeper 13- and 15-layer
+architectures that the reference shows give tighter bounds, and the
+differentially-private prior route, which would let the prior use all of the data
+and is the more promising way to attack the high empirical risk that, as the
+error analysis shows, is what keeps CIFAR-10 certificates loose. Finally, the
+controlled-difficulty design could be broadened from label noise to input
+corruption and class overlap, to test whether the empirical-risk mechanism
+identified here is the dominant one across different notions of difficulty.

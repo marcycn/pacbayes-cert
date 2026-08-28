@@ -1,0 +1,15 @@
+{
+  "git_commit": null,
+  "git_dirty": true,
+  "python": "3.10.9",
+  "pytorch": "2.5.1+cu124",
+  "torchvision": "0.20.1+cu124",
+  "cuda": "12.4",
+  "cudnn": 90100,
+  "os": "Windows-10-10.0.19045-SP0",
+  "cpu": "Intel64 Family 6 Model 85 Stepping 4, GenuineIntel",
+  "gpu": "NVIDIA GeForce RTX 3080",
+  "gpu_memory_gb": 21.47,
+  "config_hash": "0b9ac839ddf79fbbaf9aed7a40c69e5c",
+  "n_params": 2396420
+}

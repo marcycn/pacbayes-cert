@@ -1,0 +1,1 @@
+OK {"run_id": "fashion-mnist_fquad_rand_fcn_seed2", "n_bound": 60000, "n_posterior": 60000, "cert_risk_01": 0.44874, "kl": 5307.4658, "joint_confidence": 0.99, "test_stoch_01": 0.2241, "duration_sec": 1028.9}

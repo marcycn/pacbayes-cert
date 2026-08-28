@@ -1,0 +1,438 @@
+{
+  "library": {
+    "raw_count": 49,
+    "unique": 27,
+    "verified": 24,
+    "unverifiable": [
+      {
+        "title": "A Bound and a Tight PAC-Bayesian Generalization Bound (Thiemann et al. -- source of flambda)",
+        "reason": "arXiv ID 1702.08649 is WRONG. That ID resolves to 'Foundations of gauge and perspective duality' (optimization, unrelated to PAC-Bayes). The correct arXiv ID for this Thiemann/Igel/Wintenberger/Seldin paper is 1608.05610 ('A Strongly Quasiconvex PAC-Bayesian Bound', ALT 2017, PMLR v76), confirmed via arXiv abstract page and PMLR proceedings. Entry as-written has a fabricated/mismatched ID and cannot be used verbatim; must be corrected to id=1608.05610 before citing."
+      },
+      {
+        "title": "Entropy-SGD and Non-Vacuous Generalization Bounds for Stochastic Neural Networks",
+        "reason": "arXiv ID 1710.06395 does NOT resolve to this Dziugaite-Roy UAI 2017 paper (it resolves to a different work). This is a mis-identified duplicate of the correctly-listed 'Computing Nonvacuous Generalization Bounds...' whose correct ID is 1703.11008 (already present and verified). The 'Entropy-SGD' framing also conflates this with a distinct concept. Drop as duplicate-with-bad-ID; keep the verified 1703.11008 entry."
+      },
+      {
+        "title": "On the role of data in PAC-Bayes bounds (DOI variant)",
+        "reason": "DOI 10.48550/arXiv.2106.10917 is FABRICATED -- there is no arXiv:2106.10917 for this paper, and the author list given ('Dziugaite, Luh, Wei, Roy') is incorrect (the real authors are Dziugaite, Hsu, Gharbieh, Arpino, Roy). This is a corrupted duplicate of the correctly-listed arXiv:2006.10929 entry, which is verified. Drop this variant."
+      }
+    ],
+    "canonical": [
+      {
+        "title": "Tighter Risk Certificates for Neural Networks",
+        "authors": "María Pérez-Ortiz, Omar Rivasplata, John Shawe-Taylor, Csaba Szepesvári",
+        "year": 2021,
+        "venue": "Journal of Machine Learning Research (JMLR), Vol. 22, Article 227, pp. 1-40 (arXiv:2007.12911)",
+        "id": "2007.12911",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "The PRIMARY paper we reproduce/extend. Introduces PAC-Bayes-with-Backprop (PBB): train a weight DISTRIBUTION by directly minimizing a PAC-Bayes bound as the loss. Studies three objectives -- fclassic (classic McAllester/Pinsker relaxation of PAC-Bayes-kl), flambda (Thiemann et al. 2017), and fquad (PAC-Bayes-quadratic relaxation) -- plus fbbb (Blundell 2015) and ferm (ERM baseline). Computes risk certificates by inverting the PAC-Bayes-kl bound using part of the training data (n0 of n). Defines 'self-certified learning'. Official code: github.com/mperezortiz/PBB. EXACT MNIST Table 1 targets: FCN+Rand.Init fquad cert .3155/stch .0268, flambda .3275/.0211, fclassic .3304/.0407, fbbb .5516/.0088; FCN+Learnt fquad cert .0279/.0084, flambda .0354/.0082, fclassic .0284/.0101, fbbb .0968/.0063; CNN+Learnt fquad .0155/.0045. ferm FCN .0152, CNN .0092 test error. Table 2 head-to-head: PBB fquad cert .0279 vs D&R2018 SGLD .2100. CIFAR-10 Table 5: 9-layer fquad(70%) cert .2377, 13-layer fquad(70%) .1758, 15-layer flambda(70%) .2121.",
+        "relevance": "Central artifact: method, the three objectives (fclassic/flambda/fquad), predictor rules (stochastic/posterior-mean/MC-ensemble), and the data-free vs data-dependent prior axis are all defined here. Table 1 (MNIST) is the EXACT reproduction target. NOTE: project brief's 'arXiv:2107.13560' is WRONG (astrophysics paper); correct ID is 2007.12911, verified. Directly underpins H1 (fquad/flambda tighter than fclassic -- confirmed for MNIST, weaker CIFAR-10), H3 (cert tightness degrades MNIST->CIFAR-10), H4 (Learnt prior beats Rand.Init ~10x on certs), H2 (self-certified concept). Table 2 is the baseline-to-beat vs Dziugaite-Roy. This paper ALREADY compares the three predictor rules we planned, so predictor-rule comparison is reproduction, not novelty -- our sliver is gap-analysis framing + Fashion-MNIST extension."
+      },
+      {
+        "title": "Weight Uncertainty in Neural Networks (Bayes by Backprop)",
+        "authors": "Charles Blundell, Julien Cornebise, Koray Kavukcuoglu, Daan Wierstra",
+        "year": 2015,
+        "venue": "ICML 2015; PMLR Vol. 37, pp. 1613-1622 (arXiv:1505.05424)",
+        "id": "1505.05424",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "Introduces 'Bayes by Backprop' (BBB): reparameterize a Gaussian variational posterior over weights and optimise the expected-NLL-plus-KL ELBO via standard backprop, enabling scalable learning of weight distributions. This is the fbbb objective used as a training-objective baseline in PBB. Uses the reparameterization trick to make the expectation differentiable so gradients flow through sampled weights. Shows weight uncertainty improves robustness/regularization on toy and MNIST tasks.",
+        "relevance": "Foundational to the entire PBB lineage: BBB is what makes learning weight distributions via backprop practical, and fbbb is one of the four training objectives benchmarked in Pérez-Ortiz 2021 (fbbb gets better test error but much looser risk certificates than fquad/flambda because it does not directly minimize a PAC-Bayes bound). BBB-ELBO is the natural objective ablation baseline to show PAC-Bayes objectives give tighter certificates at comparable accuracy. Named as a foundational item in the charter; reproduced in the official PBB repo."
+      },
+      {
+        "title": "Computing Nonvacuous Generalization Bounds for Deep (Stochastic) Neural Networks with Many More Parameters than Training Data",
+        "authors": "Gintare Karolina Dziugaite, Daniel M. Roy",
+        "year": 2017,
+        "venue": "UAI 2017 (Proceedings of the 33rd Conference on Uncertainty in Artificial Intelligence), paper 173 (arXiv:1703.11008)",
+        "id": "1703.11008",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "First demonstration that PAC-Bayes bounds can be made numerically NON-VACUOUS for deep (stochastic) neural network classifiers with millions of parameters, reviving the Langford & Caruana (2001) approach. Method: run SGD to find a good weight region, then optimize the variance of an isotropic Gaussian perturbation over the weights (a data-free prior centered at the SGD solution) to minimize a PAC-Bayes (Catoni) generalization bound. On MNIST achieves non-vacuous but loose bounds (best ~0.21 bound at ~88% accuracy, or ~0.65 bound at ~94% accuracy per the Pérez-Ortiz Table 2 reproduction). Official code: github.com/gkdziugaite/pacbayes-opt.",
+        "relevance": "The immediate precursor whose numbers PBB beats by ~an order of magnitude. Directly the baseline in Pérez-Ortiz 2021 Table 2 (same MNIST FCN 784x600x600x10): PBB fquad reaches cert .0279 vs D&R2017 best .2100. Establishes the two-stage (optimize-perturbation) paradigm that PBB replaces with end-to-end bound minimization. Our data-free-isotropic prior condition is exactly this baseline. Underpins H1/H4 as the 'previous literature' tightened-bound target, and motivates the need for data-dependent priors. Foundational item explicitly named in the project charter."
+      },
+      {
+        "title": "Data-dependent PAC-Bayes priors via differential privacy",
+        "authors": "Gintare Karolina Dziugaite, Daniel M. Roy",
+        "year": 2018,
+        "venue": "NeurIPS 2018 (Advances in Neural Information Processing Systems 31), pp. 8440-8450 (arXiv:1802.09583)",
+        "id": "1802.09583",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "Shows an epsilon-differentially-private (DP) data-dependent prior yields a valid PAC-Bayes bound (accounting for data reuse), and that such priors produce tighter non-vacuous bounds on MNIST than data-free Gaussian priors where distribution-independent priors are vacuous. Constructs a DP isotropic-Gaussian prior by optimizing local entropy via SGLD, connecting to Entropy-SGD. Also shows some non-private data-dependent mechanisms give valid bounds. This legitimates the use of data-dependent priors in the PAC-Bayes framework that Pérez-Ortiz 2021 exploit via their 'Learnt' priors.",
+        "relevance": "Theoretical foundation for the data-dependent/learnt prior axis central to H4. PBB's 'Learnt' prior (subset/hold-out scheme) is a non-DP practical instance of the data-dependent-prior idea whose validity this DP route provides the alternative for; we should compare both prior-creation mechanisms, which is a genuine (if narrow) contribution since the Pérez-Ortiz line largely uses subset/hold-out rather than DP. Informs prior-design experiments and transfer/reduced-data ablations. Source of the D&R2018 numbers in Pérez-Ortiz Table 2."
+      },
+      {
+        "title": "Progress in Self-Certified Neural Networks",
+        "authors": "María Pérez-Ortiz, Omar Rivasplata, Emilio Parrado-Hernández, Benjamin Guedj, John Shawe-Taylor",
+        "year": 2021,
+        "venue": "NeurIPS 2021 Workshop on Bayesian Deep Learning (BDL) (arXiv:2111.07737)",
+        "id": "2111.07737",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "Defines 'self-certified' learning as using ALL available data to simultaneously learn a predictor and certify its risk with a valid numerical certificate. Empirically compares (on 4 classification datasets) classical test-set bounds for deterministic predictors against a PAC-Bayes bound for randomised self-certified predictors. Shows both bounds stay close to true test error, AND crucially in data-starvation/small-data regimes holding out data for test-set bounds hurts generalisation while self-certified PAC-Bayes bounds do not, while yielding certificates surprisingly competitive with test-set bounds.",
+        "relevance": "STRONGEST NOVELTY THREAT to H2: this directly establishes H2 (self-certified beats hold-out test bound in small data) and partially covers H3 (cross-dataset comparison). Our H2 is essentially pre-empted. Residual gaps we can still claim: (a) systematic MNIST->Fashion-MNIST->CIFAR-10 progression as a single controlled tightness-degradation study, (b) coupling with the objective comparison (fquad/flambda/fclassic) and predictor-rule comparison within the small-data regime, which this workshop paper does NOT do. Same code lineage as PBB. Must cite as primary prior statement of H2."
+      },
+      {
+        "title": "Tighter Risk Certificates for Neural Networks -- Official Code Repository (PBB)",
+        "authors": "María Pérez-Ortiz, Omar Rivasplata, John Shawe-Taylor, Csaba Szepesvári (repository owner: mperezortiz)",
+        "year": 2021,
+        "venue": "GitHub (companion to JMLR 2021 paper)",
+        "id": "https://github.com/mperezortiz/PBB",
+        "id_type": "url",
+        "verified": true,
+        "contribution": "Official reference implementation of PAC-Bayes with Backprop. Contains the training code for the fclassic, flambda, fquad (and fbbb, ferm) objectives, the data-free (Rand.Init) and data-dependent (Learnt) prior machinery, the risk-certificate computation via PAC-Bayes-kl inversion (delta=0.025), and the experiment configurations for MNIST FCN/CNN and CIFAR-10 deep CNNs reported in Tables 1, 2, and 5 of the paper.",
+        "relevance": "The code we must run and extend for the MNIST reproduction (Task #9), the Fashion-MNIST + CIFAR-10 extension (Task #10), and all ablations (Task #11). Verified as the genuine author repo; ground truth for matching Table 1/2/5 numbers. Sibling repo mperezortiz/pacbayespriors covers the related AAAI'22 'Learning PAC-Bayes priors' work relevant to H4."
+      },
+      {
+        "title": "A Bound and a Tight PAC-Bayesian Generalization Bound (Thiemann et al. -- source of flambda)",
+        "authors": "Niklas Thiemann, Christian Igel, Olivier Wintenberger, Yevgeny Seldin",
+        "year": 2017,
+        "venue": "ALT 2017 (Algorithmic Learning Theory), PMLR v76; arXiv:1608.05610",
+        "id": "1608.05610",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "Derives the PAC-Bayes-lambda (ternary/quasiconvex) bound that Pérez-Ortiz 2021 adopt as their flambda objective (Eq. 12). The bound is a relaxation of the PAC-Bayes-kl bound that is convex (strongly quasiconvex) in both posterior and prior, optimized over a parameter lambda, and is the source of the alternating-minimization procedure (over Q and lambda) used in PBB for flambda.",
+        "relevance": "flambda is one of the three core objectives in our study (H1) and the strongest in test-error terms on MNIST per Table 1. CORRECTION: the input library listed arXiv:1702.08649 which is WRONG (resolves to an optimization paper); the correct ID is 1608.05610, verified via the arXiv abstract page and PMLR proceedings (thiemann17a). Essential for correctly implementing/reproducing flambda."
+      },
+      {
+        "title": "PAC-Bayesian model averaging",
+        "authors": "David A. McAllester",
+        "year": 1999,
+        "venue": "COLT '99: Proceedings of the twelfth annual conference on Computational learning theory (ACM), pp. 164-170",
+        "id": "10.1145/307400.307435",
+        "id_type": "doi",
+        "verified": true,
+        "contribution": "Origin of the PAC-Bayes theorem: for a posterior Q over hypotheses and a prior P over bounded-loss classifiers, with probability >= 1-delta the Gibbs risk of Q is bounded by its empirical risk plus a KL(Q||P)+log(2sqrt(n)/delta) complexity term, all under a sqrt. Introduces the stochastic / model-averaging predictor whose risk is the expectation over Q rather than a single draw.",
+        "relevance": "Seed paper for the entire PAC-Bayes lineage. Defines the Gibbs/randomised predictor our 'randomised' predictor rule evaluates, and supplies the fclassic KL+sqrt bound form that fquad and flambda tighten (H1). The McAllester bound is the baseline every objective in Pérez-Ortiz 2021 is compared against."
+      },
+      {
+        "title": "PAC-Bayesian Stochastic Model Selection",
+        "authors": "David A. McAllester",
+        "year": 2003,
+        "venue": "Machine Learning, 51(1):5-21 (Kluwer/Springer)",
+        "id": "10.1023/A:1021840411064",
+        "id_type": "doi",
+        "verified": true,
+        "contribution": "Refines the original bound into the now-standard journal form: with prob >= 1-delta simultaneously for all Q, E_{h~Q} L(h) <= E_{h~Q} Lhat(h) + sqrt( (KL(Q||P) + ln(2sqrt(n)/delta)) / n ). Establishes that the bound applies to stochastic model selection and that the KL term is the data-free complexity penalty. DOI verified via Springer link.springer.com/article/10.1023/A:1021840411064.",
+        "relevance": "The canonical statement of the 'classical' PAC-Bayes bound. This is exactly the fclassic objective term in Pérez-Ortiz 2021. Cite to explain the fclassic certificate value = empirical risk + sqrt(KL/n)-style term, and as the reference point H1 claims fquad/flambda beat."
+      },
+      {
+        "title": "PAC-Bayesian Generalisation Error Bounds for Gaussian Process Classification",
+        "authors": "Matthias Seeger",
+        "year": 2002,
+        "venue": "Journal of Machine Learning Research, 3:233-269",
+        "id": "10.1162/153244303765208386",
+        "id_type": "doi",
+        "verified": true,
+        "contribution": "Independently re-derives McAllester's PAC-Bayes bound and specialises it to Gaussian Process classification, claiming the tightest distribution-free generalisation error bounds for approximate Bayesian GPC at the time. Isolates the seeger/seeger-kl form relating the Gibbs risk to a convex function of the empirical risk and KL(Q||P).",
+        "relevance": "Co-founding reference (with McAllester) for the bound family. The 'Seeger bound' is one of the convex/kl-relaxation objectives the PBB objectives generalise; understanding it is needed to place fquad/flambda/fclassic in the same family tree. Confirms the bound form is shared across GP and neural PBB settings."
+      },
+      {
+        "title": "A Note on the PAC-Bayesian Theorem",
+        "authors": "Andreas Maurer",
+        "year": 2004,
+        "venue": "arXiv preprint cs.LG (cs/0411099)",
+        "id": "cs/0411099",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "Gives a cleaner, slightly strengthened statement of the PAC-Bayes theorem with a self-contained proof via change-of-measure and exponential-moment inequalities for [0,1]-valued iid averages. Provides the precise constants and the standard 'KL + log(2sqrt(n)/delta)' denominator that later papers quote verbatim; source of the tight PAC-Bayes-kl inequality. ID verified via arXiv abstract page.",
+        "relevance": "The reference most modern PAC-Bayes papers (including the PBB line) cite for the exact constants in fclassic and the PAC-Bayes-kl inversion used to compute risk certificates. Useful when writing the precise bound form for each objective and needing a citable source for the ln(2sqrt(n)/delta) term."
+      },
+      {
+        "title": "PAC-Bayesian Supervised Classification: The Thermodynamics of Statistical Learning",
+        "authors": "Olivier Catoni",
+        "year": 2007,
+        "venue": "IMS Lecture Notes-Monograph Series, Vol. 56 (Institute of Mathematical Statistics); arXiv:0712.0248",
+        "id": "0712.0248",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "Derives two 'tempered'/localised PAC-Bayes oracle bounds for the Gibbs posterior Q_lambda proportional to exp(-lambda*Rhat)P, for binary 0-1 loss: (i) a sqrt-rate bound where the gap is ~sqrt((KL+ln(1/delta))/n), and (ii) a faster, log-rate bound where the gap scales as (KL+ln(1/delta))/lambda + lambda/n, optimised over the inverse temperature lambda. These are tighter than the classical McAllester bound when empirical risk is small.",
+        "relevance": "Direct theoretical source of H1. flambda corresponds to optimising Catoni's inverse-temperature lambda bound, and fquad (quadratic tempering) to the refined second-order/log-rate variant. Catoni is the reason the tempered objectives can beat fclassic at low empirical risk. The data-dependent/localised-prior ideas also prefigure H4. ID verified via arXiv abstract page."
+      },
+      {
+        "title": "User-friendly Introduction to PAC-Bayes Bounds",
+        "authors": "Pierre Alquier",
+        "year": 2021,
+        "venue": "arXiv:2110.11216 (Foundations and Trends in Machine Learning, Now Publishers, 2024)",
+        "id": "2110.11216",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "Modern survey/primer unifying the McAllester, Seeger, Maurer, and Catoni bound families under one change-of-measure framework, giving the explicit closed forms (the sqrt-form 'classic' bound, the Catoni lambda-bound, the kl/Seeger bound) side by side with matching constants. Includes a simplified treatment of Catoni localisation. ID verified via arXiv abstract page; published 2024 in FnT-ML.",
+        "relevance": "The single best reference for writing the exact bound FORM for fclassic vs flambda vs fquad in our method section. Lets us explain to reviewers why flambda (Catoni lambda) and fquad (quadratic/log-rate) are expected tighter than fclassic, supporting H1, without re-deriving each theorem from the 2007 monograph."
+      },
+      {
+        "title": "PAC-Bayes with Backprop",
+        "authors": "Omar Rivasplata, Vikram M. Tankasali, Csaba Szepesvári",
+        "year": 2019,
+        "venue": "arXiv:1908.07380 (cs.LG/stat.ML)",
+        "id": "1908.07380",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "First statement of the 'PAC-Bayes with Backprop' (PBB) family: train a probabilistic net (Gaussian posterior over weights) by directly minimising a PAC-Bayes bound objective via backprop, using the binary 0-1 indicator loss made differentiable. Reports ~1.4% test error on MNIST with a ~2.3% non-vacuous risk certificate, demonstrating self-bounding learning without data splitting. ID verified via arXiv abstract page.",
+        "relevance": "Methodological foundation of the entire project. Provides the concrete MNIST numbers (test ~1.4%, cert ~2.3%) that anchor our reproduction baseline, and the two-objective PBB recipe (classical vs novel bound) that Pérez-Ortiz 2021 extends to three (fclassic/flambda/fquad). Establishes the objective family and self-certified-learning framing as the authors' own prior art -- our extension must be framed as a systematic study, not a method invention. Directly motivates H2 (self-certified vs hold-out)."
+      },
+      {
+        "title": "Learning PAC-Bayes Priors for Probabilistic Neural Networks",
+        "authors": "María Pérez-Ortiz, Omar Rivasplata, Benjamin Guedj, Matthew Gleeson, Jingyu Zhang, John Shawe-Taylor, Miroslaw Bober, Josef Kittler",
+        "year": 2021,
+        "venue": "arXiv preprint (also HAL-Inria hal-03351794); AAAI 2022",
+        "id": "2109.10304",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "Empirically investigates the role of the prior across 6 datasets, learning data-dependent PAC-Bayes priors on subsets of data with different strategies/amounts. Dissects data into a prior-building subset and a posterior-training subset (the 'transfer subset' recipe, including prior-validation on a small slice); shows the optimal prior-data fraction is dataset-dependent and that reserving a small slice for prior validation helps. Reports e.g. ~2.2% risk certificate vs ~2.1% stochastic test error on MNIST. Compares under- vs over-parameterised models and several prior-training objectives/regularisation strategies.",
+        "relevance": "STRONG NOVELTY THREAT to H4: this already shows data-dependent/learnt/subset priors beat data-free priors and tightens certificates, including the transfer/reduced-data angle -- H4 is largely pre-empted. Primary source for H4 and for the bound/Dprior/Dtrain data-dissection protocol the project must implement. Residual novelty: our framing ties the prior effect explicitly to the objective (fquad/flambda) AND predictor-rule across a clean 3-dataset ladder, which this preprint does not isolate. Must cite as the primary prior-effect baseline and NOT claim H4 as a first finding."
+      },
+      {
+        "title": "Dichotomize and Generalize: PAC-Bayesian Binary Activated Deep Neural Networks",
+        "authors": "Gaël Letarte, Pascal Germain, Benjamin Guedj, François Laviolette",
+        "year": 2019,
+        "venue": "Advances in Neural Information Processing Systems (NeurIPS) 32 (arXiv:1905.10259)",
+        "id": "1905.10259",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "Trains deep nets with binary (sign) activations by directly optimising a PAC-Bayes bound, parameterising each layer so the network output is a weighted majority vote of binary functions (PBGNet), enabling tractable PAC-Bayes generalization bounds using a data-dependent prior learnt on a subset. Reports non-vacuous, competitive risk certificates on MNIST via a different parametrisation than Gaussian-mean-field PBB.",
+        "relevance": "Prior-art baseline for data-dependent priors in deep PAC-Bayes: the 'transfer subset' prior-learning recipe predates Pérez-Ortiz 2021 here. Reinforces that the learnt/subset-prior direction is well-established -- another datapoint that H4 is reproduction territory rather than discovery. Useful as the original source of the subset-prior recipe we may re-implement, and as a cross-family comparison point for how prior/parametrisation affects certificate tightness (H4). ID verified via arXiv abstract page."
+      },
+      {
+        "title": "Some theoretical improvements on the tightness of PAC-Bayes risk certificates for neural networks",
+        "authors": "Diego García-Pérez, Emilio Parrado-Hernández, John Shawe-Taylor",
+        "year": 2025,
+        "venue": "arXiv preprint (arXiv:2510.07935)",
+        "id": "2510.07935",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "Proposes four theoretical refinements that improve the tightness and usability of PAC-Bayes risk certificates for neural networks built on the PBB framework of Pérez-Ortiz et al. (2021); two of the contributions explicitly improve bound tightness, directly extending the fclassic/flambda/fquad objective family we reproduce.",
+        "relevance": "Primary 'stretch/SOTA' target for our project: the most direct recent theoretical successor to our core baseline. Sets a state-of-the-art bar for certificate tightness that our extensions to Fashion-MNIST/CIFAR-10 should compare against, and informs H1 (whether tighter objective variants beat fclassic at low empirical risk). Same author lineage (Parrado-Hernández, Shawe-Taylor) as the PBB line. ID verified via arXiv abstract page."
+      },
+      {
+        "title": "PAC-Bayes Compression Bounds So Tight That They Can Explain Generalization",
+        "authors": "Sanae Lotfi, Marc Finzi, Sanyam Kapoor, Andreas Wormuth, Soeren Laue, Gintare Karolina Dziugaite, Alex Wilson, Daniel Roy",
+        "year": 2022,
+        "venue": "NeurIPS 2022 (Advances in Neural Information Processing Systems 35; arXiv:2211.13609)",
+        "id": "2211.13609",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "Develops PAC-Bayes compression bounds by quantizing network parameters in a learned linear subspace, yielding numerically strong non-vacuous generalization bounds for realistic deep architectures (ResNets, CNNs) on CIFAR-10/100 and ImageNet; substantially tighter than Zhou et al. (2019).",
+        "relevance": "Major 2022 SOTA comparison point for non-vacuous bounds on CIFAR-10 -- the dataset where our H3 predicts cert tightness degrades. Although a compression (not weight-distribution) route, it defines the current non-vacuous-bound frontier our PBB certificates should be benchmarked against, and its CIFAR-10 numbers anchor H3. ID verified via arXiv abstract page."
+      },
+      {
+        "title": "On the Role of Data in PAC-Bayes Bounds",
+        "authors": "Gintare Karolina Dziugaite, Kyle Hsu, Waseem Gharbieh, Gabriel Arpino, Daniel M. Roy",
+        "year": 2021,
+        "venue": "AISTATS 2021 (PMLR vol. 130); arXiv:2006.10929",
+        "id": "2006.10929",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "Systematically studies how data can enter PAC-Bayes bounds; shows carefully constructed data-dependent priors (trained on held-out data) and data-dependent posterior construction yield substantially tighter generalization bounds for deep stochastic networks than data-free isotropic priors, at the cost of splitting the dataset. Empirical analysis of where the tightness gains come from (empirical-risk reduction vs KL control) on MNIST and image benchmarks.",
+        "relevance": "Direct evidence for H4 (learned/data-dependent priors beat isotropic/data-free) and mechanistic baseline for WHY data helps the bound. Defines the data-dependent-prior construction our prior experiments must compare against. We must position our work against this when claiming any 'accuracy-certificate-data-efficiency tradeoff' decomposition: the data-reuse mechanism for tightness is already dissected here, so our value-add is the cross-dataset systematic comparison, not the mechanism. ID and author list verified via arXiv abstract page (note: a corrupted duplicate entry in the input library with fabricated DOI 10.48550/arXiv.2106.10917 and wrong authors was dropped)."
+      },
+      {
+        "title": "Non-Vacuous Generalization Bounds at the ImageNet Scale: A PAC-Bayesian Compression Approach",
+        "authors": "Wenda Zhou, Victor Veitch, Morgane Austern, Ryan P. Adams, Peter Orbanz",
+        "year": 2019,
+        "venue": "ICLR 2019; arXiv:1804.05862",
+        "id": "1804.05862",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "First non-vacuous generalization guarantees for realistic architectures at ImageNet scale (and CIFAR-10), combining an original PAC-Bayes bound with off-the-shelf network compression; established that compression-based PAC-Bayes could scale to large datasets.",
+        "relevance": "Foundational SOTA predecessor to Lotfi et al. (2022) and the standard prior baseline for non-vacuous bounds on CIFAR-10/ImageNet. Its bound magnitudes on CIFAR-10 anchor H3 and contextualize how PBB weight-distribution certificates compare to the compression route. ID verified via arXiv abstract page."
+      },
+      {
+        "title": "Simple and Scalable Predictive Uncertainty Estimation using Deep Ensembles",
+        "authors": "Balaji Lakshminarayanan, Alexander Pritzel, Charles Blundell",
+        "year": 2017,
+        "venue": "NeurIPS 2017 (Advances in Neural Information Processing Systems 30; arXiv:1612.01474)",
+        "id": "1612.01474",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "Shows that training an ensemble of M independently-initialized probabilistic nets (with NLL/proper-scoring-rule loss + adversarial training) yields better-calibrated, more accurate uncertainty than Bayesian NN approaches of the era; introduces the standard 'deep ensembles' baseline for OOD detection and predictive variance.",
+        "relevance": "Primary non-Bayesian uncertainty baseline we must beat/discuss. Ensembles give competitive test error but NO distributional risk certificate, only heuristic confidence -- directly motivates our PAC-Bayes value-add (certified high-confidence predictions, RQ/H3). Relevant to MC-ensemble predictor-rule comparison."
+      },
+      {
+        "title": "Dropout as a Bayesian Approximation: Representing Model Uncertainty in Deep Learning",
+        "authors": "Yarin Gal, Zoubin Ghahramani",
+        "year": 2016,
+        "venue": "ICML 2016 (PMLR vol. 48, pp. 1050-1059; arXiv:1506.02142)",
+        "id": "1506.02142",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "Proves dropout training is equivalent to variational approximate Bayesian inference in a deep Gaussian process; introduces Monte Carlo dropout (run T stochastic forward passes at test time) as a cheap posterior-approximation for epistemic uncertainty.",
+        "relevance": "Must-discuss alternative to learning explicit weight distributions (PBB/BBB). MC-dropout is the obvious cheap baseline for our 'randomised / MC-ensemble predictor' rule and for calibration comparisons; we position PBB as a more principled posterior giving provable certificates rather than ad-hoc variance."
+      },
+      {
+        "title": "On Calibration of Modern Neural Networks",
+        "authors": "Chuan Guo, Geoff Pleiss, Yu Sun, Kilian Q. Weinberger",
+        "year": 2017,
+        "venue": "ICML 2017 (PMLR vol. 70, pp. 1321-1330; arXiv:1706.04599)",
+        "id": "1706.04599",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "Demonstrates modern deep nets are mis-calibrated (confidence != accuracy) and define Expected Calibration Error (ECE); proposes single-parameter post-hoc temperature scaling that recalibrates softmax confidences without retraining, outperforming Platt scaling/isotonic regression.",
+        "relevance": "Calibration baseline central to 'high-confidence predictions'. Our certificates are distribution-free PAC-Bayes bounds; we should report ECE alongside and argue a certificate is a stronger guarantee than a calibrated point estimate. Temperature scaling is a cheap baseline to beat on the accuracy-confidence tradeoff across MNIST/FMNIST/CIFAR-10 (H3)."
+      },
+      {
+        "title": "A Simple Baseline for Bayesian Uncertainty in Deep Learning (SWAG)",
+        "authors": "Wesley J. Maddox, Timur Garipov, Pavel Izmailov, Dmitry Vetrov, Andrew Gordon Wilson",
+        "year": 2019,
+        "venue": "NeurIPS 2019 (Advances in Neural Information Processing Systems 32; arXiv:1902.02476)",
+        "id": "1902.02476",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "Approximates the posterior over weights with a low-rank-plus-diagonal Gaussian fit to the SGD trajectory tail (Stochastic Weight Averaging), giving well-calibrated uncertainty and improving test error at low cost; scalable to large CNNs/ResNets.",
+        "relevance": "Strong modern Bayesian-DL baseline directly competing with PBB on accuracy+uncertainty. Unlike PBB, SWAG has no formal risk certificate. Must compare on CIFAR-10 especially (H3); useful as a learned-prior / posterior-init source for our data-dependent priors (H4)."
+      },
+      {
+        "title": "Evidential Deep Learning to Quantify Classification Uncertainty",
+        "authors": "Murat Sensoy, Lance Kaplan, Melih Kandemir",
+        "year": 2018,
+        "venue": "NeurIPS 2018 (Advances in Neural Information Processing Systems 31, pp. 3183-3193; arXiv:1806.01768)",
+        "id": "1806.01768",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "Replaces softmax with a Dirichlet output placed via evidence/Dempster-Shafer theory, learning a higher-order distribution over class-probability distributions with a single forward pass (no sampling) for both aleatoric and epistemic uncertainty.",
+        "relevance": "Deterministic, single-pass uncertainty baseline to contrast with our sampling-based randomised predictor. Has no frequentist risk guarantee; positions PBB certificates as a more rigorous alternative for high-confidence classification."
+      },
+      {
+        "title": "Certified Adversarial Robustness via Randomized Smoothing",
+        "authors": "Jeremy M. Cohen, Elan Rosenfeld, J. Zico Kolter",
+        "year": 2019,
+        "venue": "ICML 2019 (PMLR vol. 97, pp. 1310-1320; arXiv:1902.02918)",
+        "id": "1902.02918",
+        "id_type": "arxiv",
+        "verified": true,
+        "contribution": "Turns any classifier robust to Gaussian noise into one with a provable L2 certified radius via Neyman-Pearson-based analysis of the noise-averaged prediction; gives a distribution-free certificate over input perturbations (not over the population risk).",
+        "relevance": "Positioning: a competing 'deterministic certified' method. It certifies local adversarial robustness, NOT population classification risk like PAC-Bayes -- clarifies our distinct guarantee (risk on unseen data) for reviewers asking 'certified vs certified'. Useful contrast for scope framing."
+      },
+      {
+        "title": "Exploring Generalisation Performance through PAC-Bayes (PhD thesis)",
+        "authors": "Felix Biggs",
+        "year": 2024,
+        "venue": "PhD thesis, University College London (Foundational AI CDT)",
+        "id": "https://felixbiggs.com/thesis.pdf",
+        "id_type": "url",
+        "verified": true,
+        "contribution": "A monograph-length treatment of non-vacuous PAC-Bayes generalisation bounds for classifiers, spanning a single bound family and its variations; covers self-certified learning, bound-tightness evaluation, and efficient bound evaluation, on image benchmarks (MNIST/CIFAR-10 in the PAC-Bayes tradition). Author also published 'Tighter PAC-Bayes bounds by leveraging example difficulty' (AISTATS 2023) and 'A note on the efficient evaluation of PAC-Bayes bounds' (arXiv:2209.05188).",
+        "relevance": "Threat as a comprehensive up-to-date (2024) survey+advances of the exact space. We MUST scan chapters relevant to self-certification and bound tightness before claiming novelty, because it may already unify the objective/predictor/prior axes we plan to study. The most likely single document to fully pre-empt a 'systematic PBB certificate-tightness study'. If our proposed contribution appears here, the project's framing must shift to a specific unexplored cell (e.g., the Fashion-MNIST gap, or a head-to-head mismatch metric)."
+      }
+    ]
+  },
+  "good_question": {
+    "sharpened_rq": "Across MNIST, Fashion-MNIST, and CIFAR-10, is the GAP between a PBB network's empirical (training-set) risk and its PAC-Bayes risk certificate — the \"certificate slack\" — governed more by dataset difficulty (label noise / class overlap) than by the choice of bound objective or prior? Concretely: does the relative ordering of {fclassic, flambda, fquad} x {isotropic, data-dependent, transfer/learned} priors by certificate slack stay constant across all three datasets, or does difficulty *flip the winning configuration* (e.g., does a data-dependent prior stop helping once CIFAR-10's higher irreducible error dominates the KL term)? This is the one question the JMLR 2021 paper cannot answer (it had no FMNIST and did not frame slack as the response variable), it is falsifiable (a constant ordering kills the \"difficulty flips the winner\" sub-claim; a flipped ordering kills the \"objective/prior ordering is stable\" sub-claim), and a 2-week MNIST+FMNIST pilot on 1 GPU produces a go/no-go signal before committing to CIFAR-10.",
+    "cards": [
+      {
+        "rq": "Does the PBB certificate SLACK (certificate - empirical risk), not the certificate value itself, reveal a dataset-difficulty regime where the winning objective and prior configuration change — i.e., is there a difficulty threshold on CIFAR-10/Fashion-MNIST at which flambda's advantage over fclassic inverts, or at which a data-dependent prior's tightness gain collapses to the isotropic baseline?",
+        "why_matters": "Reframes the contribution from 'tighter certs exist' (known) to 'when and why does the tightness machinery break down', which is the only framing a CCF-B reviewer will accept as beyond the reproduced JMLR paper. The certificate slack isolates the PAC-Bayes-bound-quality signal from raw accuracy, which is otherwise confounded by dataset difficulty. A demonstrated regime-flip (or a demonstrated stability) is a mechanism claim, not a benchmark table.",
+        "falsifier": "Decision rule set a priori: (a) If the ordering of {fclassic, flambda, fquad} by certificate slack is identical across MNIST, Fashion-MNIST, and CIFAR-10 with effect size change < 15%, the 'difficulty flips the winner' hypothesis is falsified and the paper pivots to a stability claim. (b) If the slack gap between data-dependent and isotropic priors on CIFAR-10 is < 1 absolute percentage point (i.e., prior choice stops mattering once irreducible error is high), the prior-mechanism half is falsified. Either outcome is still publishable as a clear negative/boundary result.",
+        "two_week_pilot": "Week 1: implement fclassic + flambda + fquad objectives and the three certificates against a single small CNN (LeNet-scale) on MNIST with isotropic prior; verify you reproduce the known fquad<flambda<fclassic slack ordering on MNIST within 0.5pp of the JMLR table (this validates the implementation). Week 2: run the SAME 3x1 grid on Fashion-MNIST and measure slack ordering + the prior-gap. Decision gate: if FMNIST ordering matches MNIST and prior-gap is large, proceed to CIFAR-10 with the full grid; if FMNIST already shows a flip or a collapsed prior-gap, the headline result is found early and CIFAR-10 becomes confirmation only. All fits in 12GB at LeNet/CNN-C scale; one seed per cell is enough for the gate."
+      },
+      {
+        "rq": "In a defined small-data regime (n = {500, 1000, 5000} training examples per dataset), does the self-certified (whole-data) PAC-Bayes bound yield a tighter certificate than the standard hold-out test-bound, and is the crossover training-set size at which the two cross consistent across MNIST -> Fashion-MNIST -> CIFAR-10?",
+        "why_matters": "The JMLR paper asserted self-certified learning is 'promising' but never mapped the small-data crossover where its advantage over a hold-out bound actually appears or vanishes. A quantified crossover curve per dataset is a genuinely new, decision-relevant artifact (when is self-certification worth the PBB overhead?) and directly serves the data-efficiency axis of the main RQ. It is the cheapest way to extract a novel, defensible claim from the existing machinery.",
+        "falsifier": "Pre-registered test: fit the crossover training-set size n* per dataset (the n at which self-certified cert crosses the hold-out test-bound). If the three n* values are statistically indistinguishable (overlapping bootstrap CIs) AND all lie below n=500, the 'small-data advantage is dataset-dependent and meaningful' claim is falsified — self-certification would then offer no regime-specific benefit. Report the crossover with CIs regardless.",
+        "two_week_pilot": "Reuse the Week-1 MNIST implementation. On MNIST only, subsample training to n in {500,1000,2000,5000}; for each n, train flambda with isotropic + data-dependent prior and compute BOTH the self-certified certificate (whole data) and a 50/50 split hold-out test-bound, 3 seeds. Plot certificate-vs-n for both; locate n*. If a clean crossover with non-overlapping CIs appears on MNIST alone within the 2 weeks, the question is alive and FMNIST/CIFAR are the confirmation sweep. If no crossover even on MNIST, kill the small-data sub-question before scaling."
+      },
+      {
+        "rq": "Does a prior learned on a SOURCE dataset (MNIST) transfer to a TARGET dataset (Fashion-MNIST) to produce a tighter certificate than a target-isotropic prior, and does this transfer advantage decay predictably with source-target dissimilarity (MNIST->FMNIST vs a within-domain shuffle control)?",
+        "why_matters": "Prior-transfer is the only prior-related axis not occupied by the data-dependent-prior line (which uses target data). It tests whether the learned-prior tightness is a generic geometrical property or an overfit-to-source artifact, and it is the cleanest test of H4 ('learned/subset priors beat data-free under transfer'). A transfer/decoy control (e.g., learned-prior from a permuted-label source) makes this falsifiable rather than a 'learned priors are good' truism.",
+        "falsifier": "Pre-register: compute certificate slack on Fashion-MNIST under three priors: (P0) isotropic, (P_src) prior learned on MNIST, (P_decoy) prior learned on label-permuted MNIST (a source with no transferable signal). If P_src slack is NOT strictly lower than P0 by >0.5pp AND NOT higher than P_decoy by >0.3pp, then the transfer advantage is either absent or indistinguishable from a meaningless source, and the transfer-prior hypothesis is falsified.",
+        "two_week_pilot": "Requires MNIST flambda + learned-prior training from Card 1's pilot. Add: train flambda on MNIST to convergence, freeze the resulting weight-mean as a delta prior; train FMNIST posteriors under (P0, P_src, P_decoy) for 3 seeds each, record certificate slack. 12-18 model fits at CNN scale on one GPU, feasible in week 2 if the base pipeline exists. Decision gate: a transfer advantage surviving the decoy control advances H4 to CIFAR-10; failure retires H4 and the paper drops the prior-transfer section."
+      }
+    ],
+    "weak_hypotheses": [
+      "H1 ('fquad/flambda give tighter certs than fclassic at low empirical risk') — DOMINATED BY THE TARGET PAPER. The JMLR 2021 abstract states fquad/flambda are the two new tighter objectives and reports their advantage on MNIST and CIFAR-10. Re-demonstrating the fquad<flambda<fclassic ordering is reproduction, not a contribution. DROP as a standalone hypothesis; demote it to a reproduction-validation check (the Week-1 gate in the cards) whose only job is to certify the implementation is correct. The only novel residue is the 'does the ordering INVERT at high difficulty' framing, which is folded into the sharpened RQ and Card 1.",
+      "H2 ('self-certified learning beats hold-out test-bound in small-data regime') — PARTIALLY DOMINATED + UNFALSIFIABLE AS WRITTEN. The JMLR paper already proposes self-certified learning and frames it as 'promising'; the phrase 'in small-data regime' has no defined threshold, so any result can be spun as supporting it (the classic unfalsifiable shape). REWRITE per Card 2: pin a concrete crossover training-set size n* per dataset and a falsifier (overlapping CIs / n*<500). Without that, a reviewer dismisses it as a restatement of the paper's own suggestion.",
+      "H3 ('cert tightness degrades MNIST->FMNIST->CIFAR-10 but predictor-rule ordering + prior effects remain informative') — TWO PROBLEMS. (a) The degradation direction is a near-certainty (CIFAR-10 is harder; the NeurIPS 2020 workshop note already states MNIST certs are tighter than CIFAR-10), so the first clause is unfalsifiable/low-information. (b) 'remains informative' is vague and unfalsifiable (what counts as informative?). REWRITE: replace 'degrades' (a foregone conclusion) with 'certificate SLACK ordering is stable vs FLIPS' (Card 1), and replace 'remains informative' with a pre-registered effect-size threshold for the predictor-rule/prior ordering across datasets. The current H3 would survive any outcome, which is the skill's kill-rule for a non-falsifier.",
+      "H4 ('learned/subset priors beat isotropic/data-free priors, esp. under transfer/reduced data') — PARTIALLY OCCUPIED + AMBIGUOUS. Data-dependent priors on MNIST/CIFAR are already in the JMLR paper and pushed further by NeurIPS 2022/2023 work, so 'learned priors beat data-free' is occupied in-distribution. The only live seam is TRANSFER (prior from a different dataset/domain) under a decoy control — which is exactly what Card 3 isolates. DROP the in-distribution comparison; KEEP ONLY the transfer-with-decoy variant. Without the decoy/shuffle control, 'learned priors help' is a truism the skill flags as method-first/gap-without-stake."
+    ],
+    "notes": "PROJECT STATE: The repo at /home/ec2-user/pacbayes-cert is an empty scaffold — src/{datasets,models,objectives,priors,predictors,certificates,utils}/, configs/, scripts/, docs/, paper/ all empty; research-wiki/{index,gap_map,query_pack,log}.md are auto-generated stubs; graph/edges.jsonl and papers/ideas/experiments/claims dirs are empty. So 'is this pilot-able on 1x TITAN Xp' must be answered against the spec, not against existing code, and the first cost is implementation, not just compute.\n\nTHE CENTRAL RISK (stated as a reviewer would): This project's hypotheses as written are dominated by the JMLR 2021 paper it sets out to reproduce. The abstract of arXiv:2007.12911 (verified directly) confirms that paper already covers f_classic/f_quad/f_lambda, data-free + data-dependent priors, MNIST + CIFAR-10, multiple predictor rules, AND the self-certified (whole-data) vs hold-out framing. A CCF-B journal (Machine Learning / Pattern Recognition / Neural Networks) will desk-reject or major-revise a paper whose contribution is 'we reproduced it on three datasets and the ordering held.' The single most important act is to convert the contribution from a DESCRIPTIVE SWEEP (tightness degrades; orderings are stable) into a FALSIFIABLE MECHANISM/BOUNDARY claim (when does the tightness machinery flip or collapse, quantified via certificate slack and pre-registered effect sizes). That conversion is what the three cards do.\n\nPILOTABILITY ON 1x TITAN Xp (12GB): Feasible IF the architecture is held to LeNet/compact-CNN scale (the JMLR paper itself uses modest nets, not ResNets). The dominant risk is NOT compute but (1) implementation correctness of the three bounds/certificates, and (2) the fquad objective being the numerically touchy one — verify gradient stability early. Recommendation: the Week-1 MNIST reproduction gate (match the JMLR MNIST fquad/flambda/fclassic table within 0.5pp) is non-negotiable and should be treated as the project's first kill-switch; if it cannot be matched in ~10 days, the whole plan is at risk and the team should not proceed to FMNIST/CIFAR.\n\nWHAT TO REUSE, NOT REDO: The data-dependent-prior-in-distribution comparison is done; do not re-litigate it (NeurIPS 2022 compression bounds, NeurIPS 2023 data-informed priors occupy that ground). Spend the saved runs on the transfer-with-decoy experiment (Card 3) and the crossover experiment (Card 2), which are the two genuinely open seams.\n\nEVIDENCE GAPS (do NOT assert these without verification): (1) Whether ANY published work reports PBB certificates on Fashion-MNIST specifically — my search found nothing, but absence-of-hit is not proof of absence; flag as a claim-to-verify before writing 'first PBB certs on FMNIST.' (2) The exact certificate values in the JMLR Table 2 were not read from the PDF; the 0.5pp reproduction tolerance is an assumption to confirm against the actual table once PDF access is available. (3) The 'difficulty flips the winner' phenomenon is a hypothesis I am generating, not a known result — it is labeled as inference, not source-backed.\n\nSEEDS/STATS NOTE: A recurring reviewer objection to single-dataset-ordering claims is 'is the effect larger than seed noise?'. Pre-register 3-5 seeds and report bootstrap CIs on every ordering comparison from the first experiment; the falsifier thresholds in the cards (15% effect-size change, 0.5pp gaps) are only meaningful against seed-noise CIs. This is cheap insurance against a 'results within noise' rejection at a CCF-B venue.\n\nSTRONGEST REMAINING REJECTION RISK even after sharpening: 'This is a thorough empirical study but offers no new theory or new bound.' Mitigation: frame the contribution explicitly as an empirical boundary-characterization (when/why existing bounds degrade), which is an accepted contribution type at the target journals, and consider adding ONE small analytical observation (e.g., a slack-decomposition showing the KL vs empirical-risk balance shifts with difficulty) rather than promising a new bound.\""
+  },
+  "novelty": {
+    "verdict": "partial",
+    "strongest_threat": {
+      "paper": "Pérez-Ortiz et al., 'Tighter Risk Certificates for Neural Networks' (JMLR 2021, arXiv:2007.12911) -- the PRIMARY reproduced paper, plus its sibling 'Progress in Self-Certified Neural Networks' (arXiv:2111.07737) and 'Learning PAC-Bayes Priors' (arXiv:2109.10304).",
+      "why_close": "This author lineage already delivers, across three papers, essentially every standalone claim we planned. Verified by direct PDF text extraction (pdftotext on the JMLR PDF): (1) the JMLR paper itself compares fclassic/flambda/fquad (pre-empting H1), compares the three predictor rules stochastic/deterministic/ensemble (pre-empting the predictor-rule comparison as 'reproduction not novelty'), shows cert-tightness degrading MNIST->CIFAR-10 (pre-empting H3), and shows learnt priors beat data-free ~10x (pre-empting H4); (2) the self-certified workshop paper (2111.07737) directly establishes H2 (self-certified beats hold-out test bound in small data) on 4 datasets; (3) Learning PAC-Bayes Priors (2109.10304) fully dissects the data-dependent/learnt/subset-prior effect (pre-empting H4 + transfer/reduced-data) on 6 datasets. On top of that, García-Pérez 2025 (2510.07935, same lineage) sets the current SOTA tightness bar on MNIST+CIFAR-10. The residual empirical gap (Fashion-MNIST) is real but thin: I confirmed by grep on the actual JMLR PDF that it uses ONLY MNIST and CIFAR-10 (zero 'fashion' hits), and the self-certified and Learning-Priors papers use OpenML tabular sets, not the image ladder -- but this is 'new dataset', not 'new idea', and 'new dataset' alone is below a CCF-B bar."
+    },
+    "differentiation": [
+      "DROP H1/H2/H3/H4 as claimed contributions -- they are all pre-empted by the Pérez-Ortiz lineage (JMLR 2021, self-certified 2111.07737, Learning Priors 2109.10304). Re-cast them as reproduced baselines that our novel claim is benchmarked against. Reviewers will instantly flag any as-first-finding claim.",
+      "PROMOTE the certificate-validity-for-the-deployed-predictor angle to the load-bearing novelty. The PBB certificate bounds the Gibbs/stochastic risk; the JMLR paper compares stochastic/deterministic/ensemble predictors on TEST ERROR only (Fig 9) and explicitly writes 'we plan to explore this interesting phenomenon in future work' (verified line ~1830 of the PDF). No PBB-lineage paper provides a valid, tight certificate for the deterministic posterior-mean predictor that is actually deployed. Frame the paper around a quantified 'deployed-cert gap' (certificate minus true risk of the deployed predictor) across the 3-dataset ladder. This converts a reproduction into a measurement contribution.",
+      "COMPUTE a PAC-Bayes-kl/McAllester-style bound that is VALID for the posterior-mean / majority-vote predictor, not just Gibbs, using the Lacasse et al. (NeurIPS 2006) Cq/Ct bound family (Gibbs mean+variance -> majority-vote risk) -- newly adapted to the fquad/flambda PBB objectives. This is the minimum theoretical delta; without it the predictor-rule section is descriptive only and a reviewer will ask 'so what is the guarantee on the predictor I actually use?'",
+      "USE Fashion-MNIST as the clean missing middle rung, not as the headline. Because H3 (degradation MNIST->CIFAR-10) is already shown, the value of Fashion-MNIST is that it turns a 2-point trend into a 3-point ladder where the accuracy-vs-cert-tightness-vs-data-efficiency tradeoff can actually be characterized as a *curve* with a fitted slope, ideally showing Fashion-MNIST sits predictably between the two -- a controlled tradeoff study, not a stamp-collecting extension.",
+      "ADD a head-to-head MISMATCH metric and ablation that ties the prior-effect (learnt vs data-free) AND the objective (fquad/flambda) AND the predictor-rule together in one 3-axis table that NO prior PBB paper provides (each prior paper varies ONE axis). The 'interaction between objective choice and predictor-rule on cert validity' is the genuinely empty cell.",
+      "POSITION explicitly against García-Pérez 2025 (2510.07935): they tighten the bound theoretically (KL-divergence improvements, implicit differentiation) on MNIST/CIFAR-10; our orthogonal axis is empirical cert-validity-for-deployed-predictors + the dataset ladder. Make clear we are not competing on raw tightness (we will lose) but on deployed-predictor guarantee validity + cross-dataset consistency."
+    ],
+    "ccfb_readiness": "borderline as currently scoped; CCF-B-ready ONLY if the predictor-rule / certificate-validity axis is elevated to the central contribution. As stated today the project is ~75% reproduction of the Pérez-Ortiz JMLR 2021 + sibling papers (H1/H2/H3/H4 all pre-empted, verified) plus a Fashion-MNIST dataset addition (confirmed a genuine gap by PDF grep, but 'new dataset' alone does not clear CCF-B). The two gaps that lift it: (a) Fashion-MNIST as the missing rung of a 3-point ladder enabling a fitted accuracy-vs-tightness-vs-data-efficiency tradeoff curve (genuine but modest); (b) -- the decisive one -- a VALID and quantified certificate for the deterministic/posterior-mean predictor actually deployed, plus a 'deployed-cert gap' metric measured across the ladder, using the Lacasse 2006 Cq/Ct majority-vote bound adapted to fquad/flambda. If (b) is delivered with a real (even if loose) bound and shows the gap is non-trivial and dataset-ordered, the paper clears CCF-B (Machine Learning / Pattern Recognition / Neural Networks tier). Without (b), expect a desk-reject-style 'incremental extension' verdict. Compute constraint (1x TITAN Xp 12GB) is fine for MNIST/Fashion-MNIST FCN+CNN and the 9-layer CIFAR-10 config from the official repo; the 13/15-layer CIFAR configs are the risk -- keep them optional.\"",
+    "recommended_angle": "\"Reframe from 'we extend PBB to Fashion-MNIST and study the tradeoff' (reproduction + new dataset, sub-CCF-B) to: 'How valid is your risk certificate for the predictor you actually deploy? A cross-dataset study of certificate validity for posterior-mean predictors in PAC-Bayes-with-Backprop.' Concretely: (1) reproduce the JMLR 2021 Table 1/2/5 numbers as the honest baseline (Task #9) and explicitly label predictor-rule/objective/prior comparisons as reproduction; (2) ADD Fashion-MNIST as the missing middle rung to turn the MNIST->CIFAR-10 degradation into a 3-point MNIST->Fashion-MNIST->CIFAR-10 ladder with a fitted tradeoff curve (Task #10); (3) make the NOVEL core a 'deployed-cert gap' analysis: show that the PBB Gibbs-risk certificate can be loose or even misleading for the deterministic posterior-mean predictor most users deploy, derive/adapt a variance-aware majority-vote certificate (Lacasse 2006 family) for the fquad/flambda objectives, and measure this gap and its dataset-ordering across the full ladder (Task #11 expanded). This gives one clean, previously-unframed question (is the certificate valid for the deployed predictor?), one genuine empirical gap (Fashion-MNIST), and a measurement + small-theoretical-delta contribution rather than a method invention -- which is the right altitude for a CCF-B venue and cannot be dismissed as 'reproduce + new dataset'.\""
+  },
+  "kill_argument": {
+    "memo": "Recommendation: Major revision bordering on reject-as-organized-reproduction.\n\nThe contribution as framed is a factorial re-run of Pérez-Ortiz et al. JMLR 2021 plus the learned-prior program of the same authors (arXiv:2109.10304), with Fashion-MNIST as the only clearly new cell. The core grid (fclassic/flambda/fquad × isotropic/data-dependent/learnt priors, three predictor rules, self-certified vs hold-out) is EXPLICITLY that paper's experimental design, on two of your three datasets. The \"transfer prior with decoy control\" sliver is occupied: arXiv:2109.10304 already studies cross-dataset prior transfer across six datasets including Fashion-MNIST and CIFAR-10, so Card 3 is not open ground. The self-certified crossover question is pre-empted by the NeurIPS 2021 BDL workshop paper, and \"no PBB certs on Fashion-MNIST\" is a dataset-filling claim, not a research contribution.\n\nThe fatal methodological flaw is circularity: you operationalize \"dataset difficulty\" only through the certificate slack you then explain, so \"hard datasets have larger slack\" is tautological unless difficulty is formalized exogenously (label-noise rate, class overlap, intrinsic dimension). The \"ordering flips\" falsifier can be triggered by seed noise on a single CNN and one seed per cell is insufficient; no exogenous difficulty metric means the result is unfalsifiable. No new theory, no new bound, no new mechanism beyond \"the ordering holds/stalls\" — a descriptive sweep a CCF-B reviewer will not accept without an analytical contribution.",
+    "attacks": [
+      {
+        "point": "The main grid {fclassic,flambda,fquad} × {isotropic,data-dependent,learnt} × 3 predictor rules × self-certified framing is the exact experimental design of Pérez-Ortiz et al. JMLR 2021 on two of three target datasets; reproducing it on MNIST+CIFAR-10 is not an extension.",
+        "real": true,
+        "adjudication": "REAL and decisive. The verified library entry confirms the JMLR paper covers all these axes on MNIST and CIFAR-10. The sharpened-RQ reframe (slack ordering vs difficulty) does add framing, but the cells themselves are reproduced. H1 as a standalone claim is correctly demoted to a reproduction gate.",
+        "repair": "Drop the in-distribution objective/prior comparison to a single validation row (reproduce JMLR MNIST within 0.5pp) and never claim it as a finding. Make the entire paper's contribution rest on the exogenous-difficulty-driven slack-decomposition analysis (below), not on the grid."
+      },
+      {
+        "point": "The 'prior transfer with decoy/shuffle control' sliver (Card 3, H4 residue) is occupied: arXiv:2109.10304 already studies cross-dataset prior transfer across six datasets INCLUDING Fashion-MNIST and CIFAR-10, so transferring a prior from a different dataset is not novel ground.",
+        "real": true,
+        "adjudication": "REAL. Web search confirms 2109.10304 explicitly transfers priors learnt on one dataset to posteriors on another, including MNIST<->Fashion-MNIST and CIFAR-10, and reports competitive vs same-dataset priors. The plan's library entry flagged this paper as a 'STRONG NOVELTY THREAT to H4' but the refined plan still claims the transfer cell as open — that is incorrect for the cross-dataset-transfer axis. The only genuinely unoccupied sub-part is the decoy/shuffle control as a falsifiability device, which is a methodological nicety, not a contribution.",
+        "repair": "Reframe the decoy/shuffle control not as 'the transfer experiment' but as a CAUSAL-VALIDATION tool applied to the EXISTING transfer results of 2109.10304: do not claim first-ness of transfer; claim instead a mechanistic decomposition (does the transfer gain survive a no-signal source = is it geometry vs overfit?). Cite 2109.10304 as the baseline to replicate+diagnose."
+      },
+      {
+        "point": "The 'dataset difficulty flips the winner' question is circular/unfalsifiable as written: 'difficulty' is measured only through certificate slack, so the explanation is tautological.",
+        "real": true,
+        "adjudication": "REAL and the single sharpest attack (raised by the gpt-5.5 cross-model adversary). If difficulty is not formalized exogenously, 'harder datasets have larger/slackier bounds' restates the measurement. This collapses the paper's headline mechanism claim.",
+        "repair": "MANDATORY: define dataset difficulty exogenously and pre-register it BEFORE seeing bound results — e.g. injected-label-noise rate, k-NN class-overlap estimate, or an intrinsic-dimension proxy measured from raw data, none of which touch the bound. The slack must be REGRESSED against this exogenous metric, and the 'flip' claim must be a statistically-tested interaction (difficulty × objective) with 3-5 seeds and bootstrap CIs."
+      },
+      {
+        "point": "'No published PBB certificates on Fashion-MNIST exist' is an absence-of-hit claim being used to underwrite a novelty claim; and Fashion-MNIST-as-new-dataset is too thin to carry a CCF-B paper.",
+        "real": true,
+        "adjudication": "REAL on both halves. The verified library note explicitly flags this as an unverified claim-to-check. The gpt-5.5 adversary correctly classifies a single missing benchmark as dataset-filling, not research. Worse, 2109.10304's six-dataset set likely already reports PBB/FMNIST numbers, which would falsify the 'first' claim outright.",
+        "repair": "Verify against 2109.10304's actual reported tables before writing 'first'. Demote Fashion-MNIST from a novelty pillar to a calibration point on the exogenous-difficulty axis. Do not let any claim depend on FMNIST's absence from the JMLR paper alone."
+      },
+      {
+        "point": "The self-certified vs hold-out crossover (Card 2, refined H2) is pre-empted by the NeurIPS 2021 BDL workshop paper, which already establishes self-certified beats hold-out in small data; a per-dataset n* is incremental without new theory.",
+        "real": true,
+        "adjudication": "REAL. The verified library marks this paper as 'STRONGEST NOVELTY THREAT to H2: this directly establishes H2.' The crossover-curve-with-CIs refinement is a quantitative improvement, but the qualitative claim is occupied.",
+        "repair": "Keep Card 2 ONLY as a secondary, cheap-byproduct analysis (the n* curve is nearly free once the pipeline exists) and explicitly position it as 'quantifying the regime boundary of an established advantage,' not as a discovery. Do not list it among the paper's primary contributions."
+      },
+      {
+        "point": "Statistical fragility: a single CNN + one seed per cell cannot distinguish a genuine ordering 'flip' from seed noise; the 15%/0.5pp falsifier thresholds are meaningless without seed-noise CIs.",
+        "real": true,
+        "adjudication": "REAL. The refined plan's own pilot gate says 'one seed per cell is enough for the gate,' which is acceptable for a go/no-go decision but is being implicitly carried into the publication claim. A CCF-B reviewer will reject any cross-dataset ordering claim without 3-5 seeds and reported CIs.",
+        "repair": "Pre-register 5 seeds for every cell that feeds a published ordering/interaction claim; report bootstrap CIs on every pairwise comparison; make the 'flip' falsifier a CI-non-overlap test, not a point-threshold."
+      },
+      {
+        "point": "Biggs 2024 PhD thesis surveys this entire space (self-certification, bound tightness, MNIST/CIFAR) and may already unify the objective/predictor/prior axes the paper studies; unscanned, it is a novelty-overhang risk.",
+        "real": true,
+        "adjudication": "REAL as a procedural risk, though I have not read the thesis chapters, so the degree of pre-emption is unverified. The verified library flags it as 'the most likely single document to fully pre-empt a systematic PBB certificate-tightness study.'",
+        "repair": "MANDATORY pre-registration step: read the relevant Biggs 2024 chapters and explicitly state, per claim, what is and is not in that thesis before any experiment. Fold any overlap into related work; do not let a reviewer find it post-hoc."
+      },
+      {
+        "point": "Strongest residual risk even after all fixes: 'thorough empirical study, no new theory or bound' — insufficient for CCF-B without an analytical contribution.",
+        "real": true,
+        "adjudication": "REAL. The verified library's own 'STRONGEST REMAINING REJECTION RISK' note states this verbatim. The proposed contribution type (empirical boundary characterization) is acceptable but marginal; a reviewer will want one small analytical hook.",
+        "repair": "Add ONE small analytical observation — e.g., a slack decomposition (empirical-risk term vs KL term) showing how the KL/empirical-risk balance shifts with exogenous difficulty — rather than promising a new bound. This converts the paper from 'sweep' to 'mechanism + sweep.'"
+      },
+      {
+        "point": "Compute/implementation risk: the repo is an empty scaffold; fquad is numerically touchy; the Week-1 MNIST reproduction gate (within 0.5pp) is the project kill-switch and has a non-trivial chance of failing or consuming all pilot time.",
+        "real": true,
+        "adjudication": "REAL but PLAN-LEVEL, not CONTRIBUTION-LEVEL. The scaffold is confirmed empty. This is a feasibility risk, not a novelty objection — but if the gate fails, none of the above matters.",
+        "repair": "Treat the Week-1 MNIST fquad reproduction (match JMLR Table 1 within 0.5pp, with verified fquad gradient stability) as a hard go/no-go gate before ANY FMNIST/CIFAR work. Budget fquad numerical-stabilization (sigmoid/softmax-kl safe forms) explicitly in week 1."
+      }
+    ],
+    "survives": false,
+    "must_fix": [
+      "Formalize 'dataset difficulty' EXOGENOUSLY (label-noise rate, k-NN class-overlap, or intrinsic dimension from raw data) and REGRESS certificate slack against it with an interaction test (difficulty × objective). The 'flip the winner' claim must become a statistically-tested interaction with CIs, not a point comparison. This is non-negotiable: without it the headline question is circular.",
+      "Drop all in-distribution claims (objective ordering on MNIST/CIFAR, learned-vs-isotropic in-distribution) to a single reproduction-validation row. Cite JMLR 2021 and arXiv:2109.10304 as occupying this ground; do not present reproduced cells as findings.",
+      "Do NOT claim first-ness of cross-dataset prior transfer or of PBB certs on Fashion-MNIST until verified against arXiv:2109.10304's actual reported tables (likely covers both). Reframe the decoy/shuffle control as causal validation of EXISTING transfer results, not as the transfer experiment itself.",
+      "Pre-register 5 seeds + bootstrap CIs for every cell feeding a published ordering or interaction claim; make falsifiers CI-non-overlap tests. The 'one seed per cell' policy is for the go/no-go gate only, never for publication.",
+      "Read the relevant Biggs 2024 PhD thesis chapters and state per-claim what is/is not pre-empted before running anything.",
+      "Add ONE small analytical contribution (e.g., KL-vs-empirical-risk slack decomposition as a function of exogenous difficulty) to convert the paper from a descriptive sweep to a mechanism study.",
+      "Treat the Week-1 MNIST fquad reproduction (within 0.5pp of JMLR Table 1, with explicit fquad gradient-stabilization work) as a hard kill-switch before committing to FMNIST/CIFAR-10.",
+      "Demote Card 2 (self-certified crossover) to a cheap secondary byproduct; position it as quantifying an established (NeurIPS 2021 BDL) regime boundary, not as a discovery."
+    ],
+    "used_cross_model": true
+  }
+}

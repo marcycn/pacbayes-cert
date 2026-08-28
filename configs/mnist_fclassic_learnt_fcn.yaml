@@ -1,0 +1,26 @@
+# headline cell: mnist_fclassic_learnt_fcn
+sigma_prior: 0.03
+prior_dist: "gaussian"
+pmin: 1.0e-05
+kl_penalty: 0.1
+dropout_prob: 0.2
+lr: 0.005
+momentum: 0.95
+lr_prior: 0.005
+momentum_prior: 0.99
+batch_size: 250
+delta_train: 0.025
+delta_mc: 0.005
+delta_pac: 0.005
+mc_samples: 2000
+samples_ensemble: 100
+perc_prior: 0.5
+stratified: false
+device: "cuda"
+mc_eval_batch: 0
+dataset: "mnist"
+model: "fcn"
+objective: "fclassic"
+prior_type: "learnt"
+train_epochs: 100
+prior_epochs: 70

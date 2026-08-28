@@ -1,0 +1,6 @@
+Files already downloaded and verified
+Files already downloaded and verified
+-Prior: Test loss: 0.86513, Test err:  0.26930
+***Final results***
+Objective, Dataset, Sigma, pmin, LR, momentum, LR_prior, momentum_prior, kl_penalty, dropout, Obj_train, Risk_CE, Risk_01, KL, Train NLL loss, Train 01 error, Stch loss, Stch 01 error, Post mean loss, Post mean 01 error, Ens loss, Ens 01 error, 01 error prior net, perc_train, perc_prior
+fquad, cifar10, 0.03000, 0.00001, 0.00500, 0.95000, 0.00500, 0.99000,  0.10000, 0.20000, 0.12154, 0.14676, 0.41041, 0.00661, 0.10710, 0.35340, 0.07984, 0.30920, 0.07070, 0.26390, 0.00198, 0.25080, 0.26930, 1.00000, 0.50000

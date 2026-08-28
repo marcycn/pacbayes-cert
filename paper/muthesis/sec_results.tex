@@ -1,0 +1,355 @@
+\section{Results}\label{sec:results}
+
+All tables and figures below are generated from the processed results registry,
+as are the values quoted in the running text.
+
+\subsection{Correctness checks}\label{sec:correctness}
+
+All forty-two tests of Appendix~\ref{app:tests} pass, and three checks run over
+the results themselves. Every certificate recomputes from its saved Monte-Carlo
+estimate, KL and $n_{\mathrm b}$, reproducing all $115$ recorded values to
+$10^{-9}$, and this now gates aggregation. Every saved partition recomputes from
+its recorded seed and matches index for index, so no reported run used a
+label-dependent split whatever its configuration says. And each run asserts
+before training that its loaders carry that partition, so the indices checked are
+the indices consumed. Each reported $0.99$ confidence is \emph{per certificate,
+per run}: a mean over seeds describes several such certificates and is not
+itself a $0.99$ bound, which would need a further union over the rows. It is
+conditional in one further respect, stated in Section~\ref{sec:confidence}: the
+union over prior scales assumes a candidate grid fixed independently of the
+bound set, which we argue for but cannot demonstrate. Every $0.99$ below carries
+that assumption.
+
+\subsection{Reproduction and main results}\label{sec:main}
+
+\begin{sidewaystable}\centering
+\caption{Headline cells (mean~$\pm$~SD over five seeds). Each run's certificate is
+a $0$--$1$ PAC-Bayes-kl bound on the Gibbs risk holding at confidence $0.99$; the
+column is the descriptive mean of five such per-run certificates and is not
+itself a $0.99$ bound, which would need a further union over the five. The two
+test errors are descriptive deployment metrics and carry no guarantee.
+$n_{\mathrm b}$ is the bound-set size actually used, which halves for a learnt
+prior.}\label{tab:main}
+\input{generated/main_table.tex}
+\end{sidewaystable}
+
+\begin{figure}[h]\centering
+\includegraphics[width=0.8\linewidth]{fig_certificate_anatomy.pdf}
+\caption{Certificate anatomy: the empirical Gibbs risk and the PAC-Bayes
+complexity slack (KL + confidence terms) for the learnt-prior $f_{\text{quad}}$
+cells.}\label{fig:anatomy}
+\end{figure}
+
+On MNIST with a learnt prior, the tightest $0$--$1$ certificate is obtained by
+$f_{\text{classic}}$ ($\CertMnistFcnFclassicLearnt$), followed by $f_{\text{quad}}$
+($\CertMnistFcnFquadLearnt$), $f_{\lambda}$ ($\CertMnistFcnFlambLearnt$) and
+$f_{\text{bbb}}$ ($\CertMnistFcnBbbLearnt$); all are non-vacuous and reproduce the
+qualitative finding of the reference that bound-minimising objectives yield far
+tighter certificates than the accuracy-oriented $f_{\text{bbb}}$ baseline, whose
+certificate is loose precisely because it carries the largest KL term
+(Table~\ref{tab:main}). We do \emph{not} observe the
+$f_{\text{quad}}\lesssim f_{\lambda}<f_{\text{classic}}$ ordering sometimes
+quoted: the certificate is the same PAC-Bayes-kl inversion for every objective, so
+the ordering reflects only which posterior each produces, and here
+$f_{\text{classic}}$ yields the lowest-KL one. With the hyper-parameters fixed
+this is a comparison of these runs, not a general ordering of the objectives.
+Consistently, $f_{\text{bbb}}$ attains the best stochastic test error on MNIST
+($\StochMnistFcnBbbLearnt$ against $\StochMnistFcnFquadLearnt$ for $f_{\text{quad}}$)
+yet the loosest certificate, because its objective is not calibrated to the
+reported bound.
+
+Figure~\ref{fig:anatomy} shows where the looseness comes from. For the tight
+learnt-prior cells the certificate sits only a little above the
+empirical Gibbs risk: on the MNIST FCN $f_{\text{classic}}$ cell the complexity slack
+$\mathrm{KL}/n_{\mathrm b}$ is around $0.0002$, so the bound is almost entirely
+empirical risk. As the posterior is allowed a larger KL the slack grows:
+$f_{\text{quad}}$ and $f_{\lambda}$ trade slightly lower empirical risk for a
+noticeably larger KL, which is why they come out looser than $f_{\text{classic}}$
+at similar accuracy, and $f_{\text{bbb}}$ is the extreme, its KL dominating the
+certificate even though its empirical risk is the smallest of the four.
+Tightness therefore depends on the empirical risk and on the KL cost of reaching
+it, not on accuracy alone. That also explains the cross-dataset behaviour: the
+empirical-risk floor rises with difficulty (Section~\ref{sec:erroranalysis} shows
+where), so even a well-controlled KL cannot pull Fashion-MNIST or CIFAR-10 into
+the MNIST range.
+
+\paragraph{Comparison with the published numbers.} Table~\ref{tab:repro} sets our
+values against the reference's for the four MNIST cells named as reproduction
+targets in Section~\ref{sec:rqs}, using the same-definition columns recorded in
+the reference file of Section~\ref{sec:compute}. All four reproduce on the
+test-error metric: the stochastic test error differs from the published value by
+between $\ReproStochDeltaMin$ and $\ReproStochDeltaMax$, inside the
+one-percentage-point tolerance, and
+the sign of the difference varies between cells rather than pointing one way, as
+it would if our posteriors were systematically better or worse trained. That is
+evidence about predictive behaviour, not about each component: the test error is
+end-to-end, and the component claims rest on the tests of
+Appendix~\ref{app:tests}.
+
+\begin{table}[h]\centering\small
+\caption{Reproduction of the four MNIST cells named in Section~\ref{sec:rqs},
+against the published values of \textcite{perezortiz2021}. Ours are means over
+five seeds. The published numbers were obtained with $m=150{,}000$ Monte-Carlo
+samples and a per-cell grid search; ours with $m=2{,}000$ and one fixed
+configuration.}\label{tab:repro}
+\input{generated/reproduction_table.tex}
+\end{table}
+
+The certificates do not meet the same tolerance: ours are looser in all four
+cells, by between $\ReproCertDeltaMin$ and $\ReproCertDeltaMax$. The Monte-Carlo sweep of
+Section~\ref{sec:mc} measures how much of that is budget: re-drawing at the
+reference's $m=150{,}000$ takes the MNIST FCN $f_{\text{quad}}$ seed-0 checkpoint
+from $0.0572$ to $0.0420$, removing a little over half of that checkpoint's
+$0.0293$ gap. The remainder is unexplained. The reproduction therefore succeeds on the
+predictive metrics and is partial on the certificate, with one protocol difference
+measured and the rest identified but not bounded.
+
+The standard deviations in Table~\ref{tab:main} are small relative to the gaps the
+conclusions rest on: the three bound-minimising MNIST learnt-prior certificates
+vary by one to two thousandths across the five seeds, whereas the gap between
+objectives, or between a learnt and a random prior, is far larger. That the
+spread is measurable at all is the seed correction: in the original pipeline the
+split and the initialisation were reset to fixed constants regardless of the
+command-line seed, so every ``seed'' produced an identical run. With five streams
+genuinely driving the split, the initialisation, the loader order, the
+Monte-Carlo draws and the evaluation, the spread we report is real, and small
+enough that the orderings we draw conclusions from are not artefacts of one lucky
+run. It stays separate from the PAC-Bayes confidence, which is about one trained
+model rather than variation between runs.
+
+\subsection{Prior comparison}\label{sec:priorcmp}
+
+\begin{figure}[h]\centering
+\includegraphics[width=0.7\linewidth]{fig_prior_comparison.pdf}
+\caption{Learnt vs random prior certificate, shown only for cells where both
+priors were run (including the CIFAR-10 control).}\label{fig:prior}
+\end{figure}
+
+The prior changes the KL a useful posterior must pay, and moves certificate
+tightness a long way in every paired control (Figure~\ref{fig:prior}). On the
+MNIST FCN $f_{\text{quad}}$ cell, going from a random to a learnt prior tightens
+the certificate from $\CertMnistFcnFquadRand$ to $\CertMnistFcnFquadLearnt$ while
+$\mathrm{KL}(Q\|P)$ falls from $\KlMnistFcnFquadRand$ to
+$\KlMnistFcnFquadLearnt$ nats and the empirical Gibbs risk from
+$\EmpMnistFcnFquadRand$ to $\EmpMnistFcnFquadLearnt$, so accuracy improves
+alongside the certificate. The same direction holds on Fashion-MNIST
+($\CertFashionmnistFcnFquadRand\!\to\!\CertFashionmnistFcnFquadLearnt$).
+
+Which of the two terms does the work is a separate question, and the paired cells
+answer it differently. The quantity to compare is not the raw KL but
+$\mathrm{KL}/n_{\mathrm b}$, since $n_{\mathrm b}$ halves when the prior is
+learnt. On MNIST the complexity term falls by $0.131$ against $0.087$ for the
+empirical risk, so the complexity route is the larger. On Fashion-MNIST the two
+are comparable and the ranking reverses: $0.082$ against $0.111$. On CIFAR-10 the
+complexity term \emph{rises} by $0.033$, because the random-prior posterior barely
+leaves its initialisation and so pays almost no KL, and the whole of the gain is
+the empirical risk falling from $\EmpCifaronezeroCnnFquadRand$ to
+$\EmpCifaronezeroCnnFquadLearnt$. The learnt prior tightens the certificate in
+all three, then, but not by one mechanism: across these three paired cells the
+dominant contribution shifts from the complexity term to the empirical risk. We
+do not attribute that shift to difficulty, since architecture and budget change
+along the same sequence.
+The comparison is between two whole protocols rather than a pure prior-family
+intervention: the random prior is independent of all of $S$ and so uses
+$n_{\mathrm b}=|S|$, while the learnt prior uses the smaller
+$n_{\mathrm b}=|S\setminus S_0|$ --- and still attains the tighter certificate
+\emph{despite} that handicap. CIFAR-10 is the clearest case: a random prior
+leaves the $f_{\text{quad}}$ certificate at $\CertCifaronezeroCnnFquadRand$,
+whereas the learnt prior moves it to $\CertCifaronezeroCnnFquadLearnt$, formally
+non-vacuous but still loose.
+
+\paragraph{Architecture.} Where a CNN and an FCN are compared on the same dataset,
+the convolutional model gives the tighter certificate: on MNIST the $f_{\text{quad}}$
+learnt-prior certificate is $\CertMnistCnnFquadLearnt$ (CNN) versus
+$\CertMnistFcnFquadLearnt$ (FCN), and on Fashion-MNIST
+$\CertFashionmnistCnnFquadLearnt$ versus $\CertFashionmnistFcnFquadLearnt$.
+
+\paragraph{Depth on CIFAR-10.} The reference obtains its tighter CIFAR-10
+certificates with deeper networks than the nine-layer one used above, so we ran
+its 13- and 15-layer architectures at the same five seeds and the same fixed
+configuration. Within this $f_{\text{quad}}$ depth sweep the mean certificate
+improves from nine to thirteen layers and worsens at fifteen:
+$\CertCifaronezeroCnnFquadLearnt$, $\CertCifaronezeroCnnonethreeFquadLearnt$ and
+$\CertCifaronezeroCnnonefiveFquadLearnt$ respectively. The 13-layer network also
+improves the deployed error ($\PostmeanCifaronezeroCnnonethreeFquadLearnt$ versus
+$\PostmeanCifaronezeroCnnFquadLearnt$), and the gain concentrates where the error
+is: the per-class Gibbs risk of Section~\ref{sec:erroranalysis} falls from $0.448$
+to $0.340$ on \emph{cat}, the hardest class. It is also the tightest CIFAR-10
+certificate in the study, narrowly ahead of $f_{\text{classic}}$ at nine layers
+($\CertCifaronezeroCnnFclassicLearnt$), and so the best of the three depths tested
+under $f_{\text{quad}}$ and this configuration.
+
+The 15-layer network does not continue the trend, for an instructive reason. Two
+of its five seeds barely left the chance-level plateau, their prior networks
+finishing at $0.866$ and $0.899$ error on the $S_0$ they were fitted to, against
+a chance level of $0.900$: the second is chance to three decimals and the first
+sits inside the criterion's five-point tolerance, both far from the at most
+$0.228$ every other learnt prior reaches. The posterior is then initialised at an
+essentially untrained prior, so the cell is not an instance of the protocol. Both are
+registered as \texttt{not\_converged} and excluded by the criterion of
+Section~\ref{sec:compute}; the remaining three give
+$\CertCifaronezeroCnnonefiveFquadLearnt$, looser than the 13-layer result and far
+more variable. That mean is conditional on convergence, so the failure rate is
+part of the result: at fifteen layers this protocol trains $3$ of $5$ seeds,
+against $5$ of $5$ everywhere else in the study. Twelve convolutional layers with
+no normalisation, no warm-up and one fixed learning rate is past what it trains
+reliably --- a limit of the fixed reduced-compute configuration rather than of the
+method, and the price of holding one configuration across every cell.
+
+\paragraph{Across datasets.} The learnt-prior $f_{\text{quad}}$ certificate rises
+from MNIST ($\CertMnistFcnFquadLearnt$, FCN) through Fashion-MNIST
+($\CertFashionmnistFcnFquadLearnt$, FCN) to CIFAR-10
+($\CertCifaronezeroCnnFquadLearnt$, 9-layer CNN). The pattern is descriptive,
+since architecture and compute budget change along it;
+Section~\ref{sec:difficulty} is the controlled test of difficulty.
+
+\subsection{Monte-Carlo sensitivity}\label{sec:mc}
+
+\begin{figure}[h]\centering
+\includegraphics[width=0.7\linewidth]{fig_mc_convergence.pdf}
+\caption{Final certificate versus the Monte-Carlo budget $m$ on a fixed checkpoint
+with the Monte-Carlo estimate genuinely re-drawn at each budget, so both the
+estimate and the finite-MC slack are free to move.}\label{fig:mc}
+\end{figure}
+
+The comparison above attributed our looser certificates partly to the Monte-Carlo
+budget; this sweep measures that. Holding the posterior fixed at a saved
+checkpoint and re-drawing at each budget, the certificate tightens monotonically
+as $m$ grows and flattens well before the reference's budget
+(Figure~\ref{fig:mc}). On the MNIST FCN $f_{\text{quad}}$ checkpoint it falls from
+$0.0654$ at $m=1{,}000$ to $0.0572$ at our $m=2{,}000$ and $0.0420$ at the
+reference's $m=150{,}000$ --- all the \emph{same} seed-0 checkpoint, which is why
+the $m=2{,}000$ entry is not the five-seed mean $\CertMnistFcnFquadLearnt$ of
+Table~\ref{tab:main}. Against the published $0.0279$, the re-draw recovers
+$0.0152$ of this checkpoint's $0.0293$ gap. The rest is unexplained; the unmatched
+grid search and epoch budget are plausible contributors we did not test
+separately.
+
+Two checks confirm that what moves is the slack and not the estimate. The raw
+Monte-Carlo estimate is stable across the whole range ($0.01983$ at $m=1{,}000$
+against $0.01984$ at $m=150{,}000$), as an unbiased estimator should be; and the
+same curve computed analytically, holding that estimate fixed, agrees with the
+measured one to within $2.2\times10^{-5}$ at every budget. Both curves are in the
+artefact. A re-draw could have
+moved the certificate either way; here it fell monotonically at every step, so
+for this checkpoint and these draws the smaller $m$ was the conservative one.
+
+\subsection{Small-data behaviour}\label{sec:smalldata}
+
+\begin{table}[h]\centering\small
+\caption{MNIST FCN $f_{\text{quad}}$/learnt versus training-data fraction, with the
+corrected bound-set size $n_{\mathrm b}$ (mean~$\pm$~SD over seeds).}\label{tab:smalldata}
+\input{generated/smalldata_table.tex}
+\end{table}
+
+\begin{figure}[h]\centering
+\includegraphics[width=0.7\linewidth]{fig_smalldata.pdf}
+\caption{Certificate versus training-data fraction with the corrected
+$n_{\mathrm b}$ and across-seed error bars.}\label{fig:smalldata}
+\end{figure}
+
+The certificate loosens monotonically as the training set shrinks
+(Table~\ref{tab:smalldata} and Figure~\ref{fig:smalldata}): from
+$\CertMnistFcnFquadLearnt$ at full data to
+$\CertMnistFcnFquadLearntPtFiveZero$ ($50\%$),
+$\CertMnistFcnFquadLearntPtTwoZero$ ($20\%$) and
+$\CertMnistFcnFquadLearntPtOneZero$ at $10\%$ of the data
+($n_{\mathrm b}=3{,}000$). The certificate increases monotonically as the data
+fraction falls, and each step exceeds the across-seed spread at that setting. The small-data runs show most directly why the
+sample-count audit matters. The certificate denominator is the bound-set size
+$n_{\mathrm b}$, which at $10\%$ data is $3{,}000$, whereas taking it to be the
+size of the full training set would instead give $60{,}000$. Using the full
+dataset size understates the complexity term and reports a spuriously tight
+certificate at small $n$: on these same five checkpoints the wrong denominator
+returns $0.092$ where the correct one returns
+$\CertMnistFcnFquadLearntPtOneZero$, hiding most of the degradation. The bound
+stays non-vacuous down to $10\%$ of the data, so the degradation is graceful, but
+it is far from the near-flat behaviour a mis-counted $n$ would suggest.
+
+\subsection{Controlled difficulty}\label{sec:difficulty}
+
+\begin{figure}[h]\centering
+\includegraphics[width=0.7\linewidth]{fig_difficulty.pdf}
+\caption{Empirical risk, $\mathrm{KL}/n_{\mathrm b}$ and certificate versus
+label-noise level for the MNIST FCN $f_{\text{quad}}$/learnt cell (architecture,
+sample size and compute held fixed).}\label{fig:difficulty}
+\end{figure}
+
+The cross-dataset trend above could not separate difficulty from the architecture
+and budget that change alongside it; this study removes that confound. With
+architecture, sample size and compute held fixed and label noise injected into the
+MNIST FCN $f_{\text{quad}}$ learnt-prior cell, the certificate rises monotonically
+with the noise level (Figure~\ref{fig:difficulty}), from
+$\CertMnistFcnFquadLearnt$ at no noise to
+$\CertMnistFcnFquadLearntLnOneZero$, $\CertMnistFcnFquadLearntLnTwoZero$ and
+$\CertMnistFcnFquadLearntLnFourZero$ at $10$, $20$ and $40\%$ noise. Successive
+noise levels are separated by far more than the across-seed spread
+(Figure~\ref{fig:difficulty}). The increase is
+driven mainly by the empirical-risk term, since corrupted labels raise the error
+floor that any posterior must pay on $S_{\mathrm b}$, with a smaller rise in
+$\mathrm{KL}/n_{\mathrm b}$. Because
+every other factor is held fixed, this is the one place we attribute a difficulty
+effect to the intervention itself. The certified quantity here is the Gibbs risk
+on the \emph{noisy-label} distribution the model is trained and evaluated
+against, not on clean labels.
+
+\subsection{The certified predictor versus the deployed one}\label{sec:deploygap}
+
+Table~\ref{tab:main} also lets us compare the predictor the certificate covers
+against the one a user would deploy. The posterior-mean test error is below the
+stochastic (Gibbs) error in every learnt-prior cell, though not universally: on
+the CIFAR-10 data-free-prior cell, where neither predictor has learnt much, the
+ordering reverses. The finite ensemble is usually below the stochastic error but
+is not uniformly below the posterior mean. On the MNIST FCN $f_{\text{quad}}$
+cell the stochastic error is $\StochMnistFcnFquadLearnt$ against a posterior mean
+of $\PostmeanMnistFcnFquadLearnt$, and the same direction holds on Fashion-MNIST
+and CIFAR-10 with a learnt prior. The gap is consistent across the learnt-prior
+cells and not negligible, at roughly a fifth of the stochastic error on the MNIST
+cell, and by Section~\ref{sec:scope} it does not transfer the certificate to the
+posterior mean, so a user needing a guarantee for the deterministic network does
+not have one here. Closing that gap is the clearest theoretical extension of the
+project.
+
+\subsection{Where the error falls}\label{sec:erroranalysis}
+
+The certificate bounds an aggregate risk, and it is informative to see how the
+error distributes across classes, since that is what the empirical-risk term
+integrates over. Figure~\ref{fig:confusion} shows the posterior-mean confusion
+matrices on the two harder datasets. On Fashion-MNIST the error concentrates in
+the upper-body garments, the worst class being \emph{shirt}, confused mainly with
+\emph{pullover}, \emph{coat} and \emph{T-shirt}, while the footwear classes are
+almost perfectly separated; on CIFAR-10 it sits in \emph{cat}, \emph{dog} and
+\emph{bird}, with the rigid vehicle classes much easier. Those matrices describe
+the posterior-mean predictor on the test
+set, which is not the object the certificate bounds, so we also decomposed the
+certified quantity itself: the Monte-Carlo Gibbs risk on $S_{\mathrm b}$,
+accumulated by true class over the same $m=2{,}000$ draws that produce the
+certificate, on the seed-$0$ checkpoint of each cell. What is decomposed is the
+Monte-Carlo average $\bar{R}$, before the finite-sample correction
+of~\eqref{eq:mc}, so the per-class values below sit on that scale rather than on
+the scale of the corrected $\overline{R}^{+}$ quoted elsewhere. Its class average reproduces the
+run's own aggregate estimate to within $10^{-4}$, which is the check that the
+decomposition is of the right quantity.
+
+The certified risk concentrates in the same places, and more sharply: on
+Fashion-MNIST the Gibbs risk on \emph{shirt} is $0.293$ against a dataset-wide
+$0.108$ on the same scale, and on CIFAR-10 it is \emph{cat} $0.448$,
+\emph{dog} $0.383$ and \emph{bird} $0.366$ against $0.264$ for the nine-layer
+network. The worst class carries close to three times the average risk the bound
+integrates over on Fashion-MNIST and about $1.7$ times it on CIFAR-10. That is
+what the empirical-risk term of Section~\ref{sec:main} is made of, and why a
+well-controlled KL cannot pull the harder datasets into the MNIST range. It also
+marks a boundary of the method: the certificate is one number over all classes, so
+a deployment that cares about the worst class is not served by it.
+
+\begin{figure}[h]\centering
+\begin{subfigure}{0.49\linewidth}\centering
+\includegraphics[width=\linewidth]{fig_confusion_fashion-mnist.pdf}
+\caption{Fashion-MNIST}\end{subfigure}
+\begin{subfigure}{0.49\linewidth}\centering
+\includegraphics[width=\linewidth]{fig_confusion_cifar10.pdf}
+\caption{CIFAR-10}\end{subfigure}
+\caption{Posterior-mean confusion matrices (row-normalised) on the two harder
+datasets. The error concentrates in visually similar classes, which raises the
+empirical Gibbs risk that the certificate is built on.}\label{fig:confusion}
+\end{figure}

@@ -1,0 +1,288 @@
+%%%%%%%%%%%%%%%%%% USAGE INSTRUCTIONS %%%%%%%%%%%%%%%%%%
+% - Compile using LuaLaTeX and biber, unless there is a particular reason not to. Do not use the older LaTex/PDFLaTeX or BibTeX. (The fonts won't work correctly.)
+% - Expect to get 2 warnings when working correctly, one on xcolor and hyperref, and one on ExtSizes saying is better to use a class. These can be ignored.
+% - Font and the report 'year' must be specified when all \documentclass or the template won't work correctly. (There's no error checking/default cases!)
+% - For best performance save images/graphics as PDF files, not as png/jpg/eps. This makes no difference to how images are inserted using \includegraphics.
+% - As many further packages as wanted can be loaded. Below are just an example set. Note that template itself loads a number of packages, including hyperref.
+% - References are handed using biblatex.
+% - Link to the presentation of dissertations policy: https://documents.manchester.ac.uk/display.aspx?DocID=2863
+
+
+
+%%%%%%%%%%%%%%%%%% META DATA SETUP %%%%%%%%%%%%%%%%%%
+% This is where the document title and author are set. Other details for the title page are set later
+% Note that if/when you edit these you may need to 'Recompile from scratch' to get the changes to display in the PDF. (In Overleaf, select the down arrow to the right of the 'Recompile' button)
+% [overwrite] is required: without it LaTeX silently keeps any pre-existing
+% \jobname.xmpdata, so the title page and the PDF/A metadata would be taken from
+% a stale file rather than from the values set here.
+\begin{filecontents*}[overwrite]{\jobname.xmpdata}
+  \Title{Certifying Deep Learning Classifier Predictions with High Confidence} 
+  \Author{14215174} % should be student number rather than name to help with annoymous marking
+  \Language{en-GB}
+  \Copyrighted{True}
+  % More meta-data fielda can be added here if wanted, see https://ctan.org/pkg/pdfx?lang=en for fields
+\end{filecontents*}
+
+
+%%%%%%%%%%%%%%%%%% DOCUMENT SETUP %%%%%%%%%%%%%%%%%%
+\documentclass[11pt,msc]{uom_eee_dissertation_casson} % course can be msc or beng (MSc AI -> msc)
+% Check your course handbook for the correct font size to use. Make sure this is correct - you may get an overlength penalty if not! Is currently 12 for BEng, and 11 for MSc. The template doesn't change this automatically for you
+
+
+%%%%%%%%%%%%%%%%%% PACKAGES AND COMMANDS %%%%%%%%%%%%%%%%%%
+
+% Packages
+\usepackage{graphicx}              % for adding graphics files
+  \graphicspath{ {./images/} }
+\usepackage{amsmath}               % assumes amsmath package installed
+  \allowdisplaybreaks[1]           % allow eqnarrays to break across pages
+\usepackage{amssymb}               % assumes amsmath package installed 
+\usepackage{url}                   % format hyperlinks correctly
+\usepackage{rotating}              % allow portrait figures and tables
+\usepackage{multirow}              % allows merging of rows in tables
+\usepackage{lscape}                % allows pages to be typeset in landscape mode
+\usepackage{tabularx}              % allows fixed width tables
+\usepackage{verbatim}              % enhanced version of built-in verbatim environment
+\usepackage{footnote}              % allows more control over footnote environments
+\usepackage{float}                 % allows H option on floats to force here placement
+\usepackage{booktabs}
+\usepackage{longtable}              % improve table line spacing
+\usepackage{lipsum}                % for adding dummy text here
+\usepackage[base]{babel}           % required for lisum package
+\usepackage{subcaption}            % for multiple sub-figures in a single float
+\usepackage{siunitx}               % add SI units
+% Add your packages here
+
+
+% Allow TeX to stretch spacing to avoid overfull lines in text and references
+\emergencystretch=3em
+\hbadness=10000  % silence underfull-hbox info from the stretching
+
+% The class loads hyperref before amsmath, so the stored equation label is
+% already parenthesised ("(2)"); amsmath's \eqref would add a second pair and
+% print "((2))". Referring through \ref gives the single, correct "(2)".
+\renewcommand{\eqref}[1]{\textup{\ref{#1}}}
+
+% Custom commands
+\newcommand{\degree}{\ensuremath{^\circ}}
+\newcommand{\sus}[1]{$^{\mbox{\scriptsize #1}}$} % superscript in text (e.g. 1st)
+\newcommand{\sub}[1]{$_{\mbox{\scriptsize #1}}$} % subscript in text
+\newcommand{\otoprule}{\midrule[\heavyrulewidth]}
+\newcolumntype{Z}{>{\centering\arraybackslash}X}  % tabularx centered columns 
+% Add your custom commands here
+
+
+
+%%%%%%%%%%%%%%%%%% REFERENCES SETUP %%%%%%%%%%%%%%%%%%
+
+% Setup your references here. Change the reference style here if wanted
+\usepackage[style=numeric,backend=biber,backref=true,hyperref=auto,maxbibnames=3,minbibnames=1]{biblatex}
+% Note backref=true adds a page number (and hyperlink) to each reference so you can easily go back from the references to the main document. You may prefer backref=false if you need to stick strictly to a given reference style
+
+
+% Fixes which can't be applied in the .cls file
+\DefineBibliographyStrings{english}{backrefpage = {cited on p\adddot},  backrefpages = {cited on pp\adddot}}
+%  \renewcommand*{\bibfont}{\large}
+
+
+% Add more .bib files here if wanted
+\addbibresource{references.bib}
+
+% Registry-generated inline numbers (mean values); regenerated by scripts/gen_tables.py
+\IfFileExists{generated/numbers.tex}{\input{generated/numbers.tex}}{}
+
+
+
+%%%%%%%%%%%%%%%%%% AUTOMATIC WORD COUNT SETUP %%%%%%%%%%%%%%%%%%
+% Automatically counts the words present and makes a \mywordcount variable. This is used later to automatically add the word count (which can be overridden if wanted)
+% See https://www.overleaf.com/learn/how-to/Is_there_a_way_to_run_a_word_count_that_doesn%27t_include_LaTeX_commands%3F for info on what words are counted and how to control this. Any changes to what's counted need to be made in uom_thesis_casson.cls, in the \newcommand{\quickwordcount} command. The default doesn't count words in headings, captions, or references and so you may get slightly different numbers if use a different word count tool
+% This can be a bit fragile. If it doesn't work, there's an option later on to just type in a numer
+%\quickwordcount disabled (texcount unavailable) % run word count. This just counts the words. Is displayed with the \wordcount command later
+
+
+
+%%%%%%%%%%%%%%%%%% START DOCUMENT %%%%%%%%%%%%%%%%%%
+
+% Don't edit these lines, title and author are automatically taken from the document meta-data defined above
+\begin{document}
+\makeatletter
+\title{\xmp@Title}
+\studentid{\xmp@Author}
+\makeatother
+
+% Set the below yourself
+\course{Artificial Intelligence}  % "Master of Science in" or "Bachelor of Engineering in "
+                                                   % is added automatically
+                                                   % Our BEng courses are: Electrical and Electronic Engineering, Electrical Engineering, and Mechatronic Engineering
+                                                   % Our MSc courses are: Advanced Control and Systems Engineering, Advanced Control and Systems Engineering with Extended Research, Communications and Signal Processing, Communications and Signal Processing with Extended Research, Electrical Power Systems Engineering, Advanced Electrical Power Systems Engineering, Renewable Energy and Clean Technology, Renewable Energy and Clean Technology with Extended Research, Robotics, Robotics with Extended Research
+\faculty{Science and Engineering}                  % "Faculty of" is added automatically
+\school{School of Engineering} % "School of" not added automatically (as if in AMBS, School comes at the end rather than the start), so enter full name of School here
+\submitdate{2026}                                  % regulations ask only for the year, not month
+\wordcount{8948}                                   % abstract + Sections 1-6, measured with
+                                                   % texcount; excludes references, appendices
+                                                   % and figure/table captions per the rubric
+\maketitle
+
+
+
+%%%%%%%%%%%%%%%%%% LISTS OF CONTENT %%%%%%%%%%%%%%%%%%
+\uomtoc
+% other lists are not required, but can include \uomlof and \uomlot if really want to
+
+
+%%%%%%%%%%%%%%%%%% ABSTRACT %%%%%%%%%%%%%%%%%%
+\begin{abstract}
+\input{abstract}
+\end{abstract}%
+\clearpage
+
+
+
+%%%%%%%%%%%%%%%%%% DECLARATIONS %%%%%%%%%%%%%%%%%%
+\begin{uomoriginality}
+  \uomoriginalitydeclaration 
+  % If the standard originality decalaration is sufficient, saying no portion of the work has been submitted in support of an application for another degree or qualification, the above command will automatically add the required text and nothing else is needed in this section.
+  % If the standard statment isn't sufficient, then comment out the \uomoriginalitydeclaration command and type in your own text here explaining the authorship of any re-used portions. 
+\end{uomoriginality}
+\uomcopyrightstatement
+
+
+
+%%%%%%%%%%%%%%%%%% ACKNOWLEDGEMENTS %%%%%%%%%%%%%%%%%%
+\begin{uomacknowledgements}
+I thank my supervisor, Dr.\ Omar Rivasplata, for detailed feedback on the
+correctness of the risk certificates and on the reproducibility of the
+experimental pipeline. This work
+builds on the open-source PAC-Bayes-with-Backprop implementation of
+P\'erez-Ortiz et al.\ (2021); the public MNIST, Fashion-MNIST and CIFAR-10
+benchmarks were used throughout.
+\end{uomacknowledgements}
+
+
+
+%%%%%%%%%%%%%%%%%% Start content %%%%%%%%%%%%%%%%%%
+\uomstartmainbody
+
+\input{body_main}
+
+%%%%%%%%%%%%%%%%%% REFERENCES %%%%%%%%%%%%%%%%%%
+%\clearpage % uncomment to start on a new page if wanted
+\printbibliography[title={References},heading=bibintoc] % a single list of references for the whole thesis
+
+
+
+%%%%%%%%%%%%%%%%%% APPENDICES %%%%%%%%%%%%%%%%%%
+\begin{uomappendix}
+    \section{Per-seed complete results}\label{app:perseed}
+    \input{appendix}
+
+    \clearpage
+    \section{The unit-test suite}\label{app:tests}
+    Table~\ref{tab:tests} lists the suite. Each row is one correction of
+    Section~\ref{sec:pipeline} or one condition of Section~\ref{sec:theory}, the
+    number of tests defending it, and the fixed input and asserted output of each.
+    \input{_tests_table_block}
+
+    \section{Alternatives considered}\label{app:choices}
+    This appendix records what was rejected in each of the design choices
+    summarised in Section~\ref{sec:choices}.
+
+    \paragraph{Which bound to report.} The classical PAC-Bayes statements form a
+    hierarchy, from the loose Hoeffding form through the tunable Catoni bound to
+    the PAC-Bayes-kl inequality, the tightest but invertible only numerically.
+    Since the question is how tight a certificate the method can deliver, a
+    looser reporting bound would have flattened the differences between the
+    objectives, so PAC-Bayes-kl is used throughout and the training objectives
+    are treated only as different ways of producing the posterior that is then
+    certified.
+
+    \paragraph{How to make a learnt prior admissible.} A learnt prior is
+    admissible only if it is independent of the data used to evaluate the bound,
+    and there are two routes to that. The differential-privacy route of
+    \textcite{dziugaite2018} lets the prior see all of the data at the price of
+    an extra privacy term; the disjoint-subset route, which the reference uses
+    and we follow, reserves a held-out subset the prior never trains on. We took
+    the latter because it adds no extra slack and its independence condition can
+    be checked directly, which suits an audit. Its cost is that the bound is then
+    evaluated on fewer examples, a trade-off Section~\ref{sec:priorcmp} returns
+    to when interpreting the prior comparison.
+
+    \paragraph{The posterior family.} A full-covariance Gaussian would carry a
+    quadratic parameter count and a KL that does not scale to these networks. A
+    Laplace posterior is equally admissible and tractable, but is not the
+    reference's default, and changing it would have confounded the reproduction.
+
+    \paragraph{Spending the compute differently.} Running fewer seeds at full
+    Monte-Carlo budget was the obvious alternative to running five seeds at a
+    reduced one. We rejected it because across-seed variability is one of the
+    things the seed-control correction exists to expose: with the original
+    pipeline every seed produced an identical run, so a study that could not
+    measure spread would have left that correction untested.
+
+    \section{Reproduction}\label{app:repro}
+    The artefact accompanying this dissertation is deposited at [artefact locator];
+    the version reported here is the one tagged there. Its layout is
+    \texttt{src/pacbayes\_cert/} for the package, \texttt{configs/} for one YAML
+    file per headline cell named
+    \texttt{<dataset>\_<objective>\_<prior>\_<model>.yaml},
+    \texttt{tests/} for the suite of Table~\ref{tab:tests}, \texttt{scripts/} for
+    the orchestration, aggregation, figure and table steps, \texttt{results/raw/}
+    for one directory per run holding its resolved configuration, split indices,
+    metrics and environment record, \texttt{results/processed/} for the registry
+    these are aggregated into, \texttt{results/reference/} for the transcribed
+    published values of Table~\ref{tab:repro}, \texttt{third\_party/} for the
+    vendored reference implementation, and \texttt{legacy\_invalidated/} for the
+    pre-correction outputs. A single run, the full matrix, the tests and the
+    derived outputs are reproduced by
+    \begin{quote}\small\ttfamily
+    python run.py -{}-config configs/mnist\_fquad\_learnt\_fcn.yaml -{}-base-seed 0\\
+    SEEDS="0 1 2 3 4" bash scripts/run\_matrix.sh\\
+    pytest tests/\\
+    python scripts/prior\_fit\_on\_s0.py \&\& python scripts/verify\_splits.py\\
+    python scripts/aggregate.py \&\& python scripts/gen\_tables.py \&\& python scripts/make\_figures.py\\
+    python scripts/mc\_sensitivity.py -{}-run-dir results/raw/mnist\_fquad\_learnt\_fcn\_seed0 -{}-with-analytic\\
+    python scripts/gibbs\_per\_class.py -{}-run-dir results/raw/fashion-mnist\_fquad\_learnt\_fcn\_seed0
+    \end{quote}
+    in that order, in an environment installed from the supplied lock file. The
+    order matters at one point: \texttt{aggregate.py} applies the convergence
+    screen of Section~\ref{sec:compute} to the prior network's error on $S_0$, so
+    a learnt-prior run for which \texttt{prior\_fit\_on\_s0.py} has not yet
+    supplied that figure is registered as \texttt{unscreened} and excluded, rather
+    than admitted on a default. Runs produced by the current
+    \texttt{run.py} record it themselves and do not need that step; it exists to
+    bring earlier runs onto the same footing.
+    Each experiment is run from a fixed configuration file and a base seed;
+    the processed registry, and from it every results table, figure and inline
+    number in this dissertation, is regenerated from the stored per-run results,
+    so no reported number is entered by hand. The forty-two unit tests behind the
+    corrections of Section~\ref{sec:pipeline} and the conditions of
+    Section~\ref{sec:theory} are listed in Table~\ref{tab:tests} and run from the
+    supplied suite without a GPU. The library versions, hardware
+    and software version of every run are recorded alongside its results, and the
+    environment is pinned by the supplied lock file.
+
+    \section{Ethics and risk assessment}\label{app:risk}
+    The project was assessed against the institution's ethics criteria before any
+    experiment was run, and the determination was that no ethics application is
+    required. The grounds are that it involves no human participants, no human or
+    personal data, no external organisations and no primary data collection:
+    the only data used are the three public benchmark datasets MNIST,
+    Fashion-MNIST and CIFAR-10, obtained through their standard distributions and
+    used in accordance with their published terms.
+
+    The certificate applies only to the Gibbs classifier, at the stated
+    confidence, on the distribution from which the bound set is drawn; it does not
+    certify a deployed deterministic network or performance under distribution
+    shift (Sections~\ref{sec:scope} and~\ref{sec:deploygap}). And a certificate is an
+    aggregate over classes: Section~\ref{sec:erroranalysis} shows the error
+    concentrating in a few confusable classes, so a single certified number can
+    coexist with markedly unequal per-class performance, which matters wherever
+    those classes correspond to groups a decision affects differently.
+
+    On physical risk, compute ran on a single desktop-class GPU; no hazardous
+    equipment, no sensitive data and no fieldwork were involved.
+\end{uomappendix}
+
+
+%%%%%%%%%%%%%%%%%% END MATTER %%%%%%%%%%%%%%%%%%
+\end{document}

@@ -1,0 +1,64 @@
+ablations: 30 cells over 2 GPUs, started 2026-08-08 10:31:50
+[gpu0 10:31:50] START pt05_seed0
+[gpu1 10:31:50] START pt05_seed1
+[gpu0 10:41:50] DONE  pt05_seed0 600s
+[gpu0 10:41:50] START pt05_seed2
+[gpu1 10:42:07] DONE  pt05_seed1 617s
+[gpu1 10:42:07] START pt05_seed3
+[gpu0 10:51:52] DONE  pt05_seed2 602s
+[gpu0 10:51:52] START pt05_seed4
+[gpu1 10:52:21] DONE  pt05_seed3 614s
+[gpu1 10:52:22] START pt02_seed0
+[gpu1 10:58:12] DONE  pt02_seed0 350s
+[gpu1 10:58:13] START pt02_seed2
+[gpu0 11:02:16] DONE  pt05_seed4 624s
+[gpu0 11:02:16] START pt02_seed1
+[gpu1 11:04:00] DONE  pt02_seed2 347s
+[gpu1 11:04:01] START pt02_seed4
+[gpu0 11:07:54] DONE  pt02_seed1 338s
+[gpu0 11:07:54] START pt02_seed3
+[gpu1 11:09:50] DONE  pt02_seed4 349s
+[gpu1 11:09:50] START pt01_seed1
+[gpu0 11:13:35] DONE  pt02_seed3 341s
+[gpu0 11:13:35] START pt01_seed0
+[gpu1 11:14:11] DONE  pt01_seed1 262s
+[gpu1 11:14:12] START pt01_seed3
+[gpu0 11:17:46] DONE  pt01_seed0 251s
+[gpu0 11:17:46] START pt01_seed2
+[gpu1 11:18:29] DONE  pt01_seed3 257s
+[gpu1 11:18:29] START ln01_seed0
+[gpu0 11:21:57] DONE  pt01_seed2 251s
+[gpu0 11:21:57] START pt01_seed4
+[gpu0 11:26:11] DONE  pt01_seed4 254s
+[gpu0 11:26:12] START ln01_seed1
+[gpu1 11:36:25] DONE  ln01_seed0 1076s
+[gpu1 11:36:25] START ln01_seed2
+[gpu0 11:43:45] DONE  ln01_seed1 1053s
+[gpu0 11:43:46] START ln01_seed3
+[gpu1 11:54:18] DONE  ln01_seed2 1073s
+[gpu1 11:54:19] START ln01_seed4
+[gpu0 12:01:18] DONE  ln01_seed3 1052s
+[gpu0 12:01:18] START ln02_seed0
+[gpu1 12:12:12] DONE  ln01_seed4 1073s
+[gpu1 12:12:12] START ln02_seed1
+[gpu0 12:18:43] DONE  ln02_seed0 1045s
+[gpu0 12:18:43] START ln02_seed2
+[gpu1 12:29:51] DONE  ln02_seed1 1059s
+[gpu1 12:29:51] START ln02_seed3
+[gpu0 12:36:03] DONE  ln02_seed2 1040s
+[gpu0 12:36:03] START ln02_seed4
+[gpu1 12:47:33] DONE  ln02_seed3 1062s
+[gpu1 12:47:33] START ln04_seed0
+[gpu0 12:53:23] DONE  ln02_seed4 1040s
+[gpu0 12:53:23] START ln04_seed1
+[gpu1 13:05:14] DONE  ln04_seed0 1061s
+[gpu1 13:05:14] START ln04_seed2
+[gpu0 13:10:42] DONE  ln04_seed1 1039s
+[gpu0 13:10:43] START ln04_seed3
+[gpu1 13:22:56] DONE  ln04_seed2 1062s
+[gpu1 13:22:56] START ln04_seed4
+[gpu0 13:28:03] DONE  ln04_seed3 1040s
+[gpu0] LANE COMPLETE
+[gpu1 13:40:13] DONE  ln04_seed4 1037s
+[gpu1] LANE COMPLETE
+ABLATIONS COMPLETE 2026-08-08 13:40:13

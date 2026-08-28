@@ -1,0 +1,3 @@
+E:\Programming\research_ws\pacbayes_env\lib\site-packages\torch\nn\functional.py:1538: UserWarning: dropout2d: Received a 2-D input to dropout2d, which is deprecated and will result in an error in a future release. To retain the behavior and silence this warning, please use dropout instead. Note that dropout2d exists to provide channel-wise dropout on inputs with 2 spatial dimensions, a channel dimension, and an optional batch dimension (i.e. 3D or 4D inputs).
+  warnings.warn(warn_msg)
+OK {"run_id": "mnist_fquad_learnt_cnn_seed1", "n_bound": 30000, "n_posterior": 60000, "cert_risk_01": 0.03632, "kl": 123.8219, "joint_confidence": 0.99, "test_stoch_01": 0.0116, "duration_sec": 1575.8}

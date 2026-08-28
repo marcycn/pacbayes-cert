@@ -1,0 +1,1 @@
+OK {"run_id": "mnist_fquad_learnt_fcn_seed1_pt20", "n_bound": 6000, "n_posterior": 12000, "cert_risk_01": 0.11488, "kl": 90.0323, "joint_confidence": 0.99, "test_stoch_01": 0.0447, "duration_sec": 330.9}

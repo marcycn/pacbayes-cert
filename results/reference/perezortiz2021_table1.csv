@@ -1,0 +1,19 @@
+# Published values transcribed from Perez-Ortiz, Rivasplata, Shawe-Taylor &
+# Szepesvari, "Tighter Risk Certificates for Neural Networks", JMLR 22(227),
+# 2021 (arXiv:2007.12911), Table 1, MNIST block.
+#
+# Column names below are OUR schema names; the source column each was taken
+# from is recorded in ref_column_* so the mapping can be audited.  An earlier
+# revision of this project compared against the wrong source column (it read
+# "Stch 01" off a mis-aligned row and obtained .0268 for the FCN/rand/fquad
+# stochastic error, whose true value is .0951); the mapping recorded here is
+# the corrected one, re-checked against the arXiv source.
+#
+# Only rows that this project also ran under the corrected pipeline are listed.
+# The published numbers use m=150,000 Monte-Carlo samples and a per-cell grid
+# search; ours use m=2,000 and a single fixed configuration.
+dataset,model,objective,prior_type,ref_cert_risk_01,ref_test_stoch_01,ref_test_postmean_01,ref_test_ens_01,ref_column_cert,ref_column_stoch,ref_column_postmean,ref_column_ens
+mnist,fcn,fquad,rand,0.3155,0.0951,0.0558,0.0572,Risk_01,Stch_01,Post mean 01 error,Ens 01 error
+mnist,fcn,fquad,learnt,0.0279,0.0204,0.0186,0.0189,Risk_01,Stch_01,Post mean 01 error,Ens 01 error
+mnist,fcn,flamb,learnt,0.0354,0.0178,0.0185,0.0185,Risk_01,Stch_01,Post mean 01 error,Ens 01 error
+mnist,cnn,fquad,learnt,0.0155,0.0127,0.0105,0.0104,Risk_01,Stch_01,Post mean 01 error,Ens 01 error

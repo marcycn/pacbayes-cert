@@ -1,0 +1,7 @@
+# On the Role of Data in PAC-Bayes Bounds
+
+- **Authors:** Gintare Karolina Dziugaite, Kyle Hsu, Waseem Gharbieh, Gabriel Arpino, Daniel M. Roy
+- **Venue/Year:** AISTATS 2021 (PMLR vol. 130); arXiv:2006.10929 (2021)
+- **ID:** arXiv:2006.10929 — ✓ verified
+- **Contribution:** Systematically studies how data can enter PAC-Bayes bounds; shows carefully constructed data-dependent priors (trained on held-out data) and data-dependent posterior construction yield substantially tighter generalization bounds for deep stochastic networks than data-free isotropic priors, at the cost of splitting the dataset. Empirical analysis of where the tightness gains come from (empirical-risk reduction vs KL control) on MNIST and image benchmarks.
+- **Relevance to our RQ:** Direct evidence for H4 (learned/data-dependent priors beat isotropic/data-free) and mechanistic baseline for WHY data helps the bound. Defines the data-dependent-prior construction our prior experiments must compare against. We must position our work against this when claiming any 'accuracy-certificate-data-efficiency tradeoff' decomposition: the data-reuse mechanism for tightness is already dissected here, so our value-add is the cross-dataset systematic comparison, not the mechanism. ID and author list verified via arXiv abstract page (note: a corrupted duplicate entry in the input library with fabricated DOI 10.48550/arXiv.2106.10917 and wrong authors was dropped).

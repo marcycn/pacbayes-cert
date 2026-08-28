@@ -1,0 +1,16 @@
+# Pinned environment for the clean pacbayes_cert pipeline (verified on the project
+# GPU, an NVIDIA TITAN Xp / Pascal sm_61). Install the CUDA torch build that matches
+# your GPU and driver; the versions below are the ones all reported runs used:
+#
+#   pip install torch==2.5.1 torchvision==0.20.1 --index-url https://download.pytorch.org/whl/cu124
+#   pip install -r requirements-lock.txt
+#
+# NOTE: a plain "pip install torch" may pull a build whose CUDA kernels do not
+# support an older GPU (CUBLAS_STATUS_ARCH_MISMATCH); pin the build as above.
+torch==2.5.1
+torchvision==0.20.1
+numpy==1.26.4
+PyYAML==6.0.1
+matplotlib==3.9.2
+tqdm==4.66.2
+pytest==8.1.1

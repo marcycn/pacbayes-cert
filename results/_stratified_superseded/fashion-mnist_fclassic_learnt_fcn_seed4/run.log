@@ -1,0 +1,1 @@
+OK {"run_id": "fashion-mnist_fclassic_learnt_fcn_seed4", "n_bound": 30000, "n_posterior": 60000, "cert_risk_01": 0.15607, "kl": 25.5959, "joint_confidence": 0.99, "test_stoch_01": 0.1158, "duration_sec": 1103.8}

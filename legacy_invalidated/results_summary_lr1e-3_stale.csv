@@ -1,0 +1,2 @@
+run_id,objective,prior,model,seed,train_epochs,mc_samples,rc,risk_ce,risk_01,stch_01,postmean_01,ens_01,duration_sec
+mnist_fquad_rand_fcn_seed0,fquad,rand,fcn,0,100,10000,0,0.19978,0.32883,0.10480,0.06920,0.06940,1759.1

@@ -1,0 +1,29 @@
+Table~\ref{tab:perseed} gives per-seed results for all $113$ reported runs,
+generated from the results registry. Each row is one run, whose configuration,
+data split, checkpoints and metrics are retained and whose inclusion or exclusion
+is recorded in the registry. The registry holds $115$ runs; the two that do not
+appear here are the learnt-prior runs whose prior network never left the
+chance-level plateau, at $0.866$ and $0.899$ error on $S_0$, excluded under the
+criterion stated in Section~\ref{sec:compute}.
+
+The \textbf{Condition} column identifies which study a row belongs to.
+\emph{Headline} rows use the full training set with clean labels and are the cells
+of Table~\ref{tab:main}, run at five seeds ($0$--$4$). \emph{Data~$p\%$} rows are
+the small-data sweep of Section~\ref{sec:smalldata}, retrained on a uniformly
+random $p\%$ of the training set drawn without reading any label, at five seeds
+($0$--$4$).
+\emph{Noise~$\eta\%$} rows are the controlled-difficulty study of
+Section~\ref{sec:difficulty}, with a fraction $\eta$ of the labels of $S$
+corrupted to a uniformly random different class, also at five seeds. Rows sharing
+a dataset, model, prior, objective and condition differ only in their seed.
+
+Column $n_{\mathrm b}$ is the bound-set size actually used in the certificate, so
+it varies with both the prior family and the training-data fraction. The risk
+certificate is the $0$--$1$ PAC-Bayes-kl bound on the Gibbs risk at confidence
+$0.99$, per certificate and per run. ``Stoch~/ PM~/ Ens'' are the stochastic,
+posterior-mean and ensemble test errors, which are descriptive deployment metrics
+and carry no guarantee; for the noise rows they are measured against clean test
+labels, whereas the certificate in the same row refers to the corrupted-label
+distribution, so the two are not comparable within those rows.
+
+\input{generated/perseed_table.tex}

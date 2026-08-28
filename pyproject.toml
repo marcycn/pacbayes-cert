@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pacbayes-cert"
+version = "2.0.0"
+description = "Auditable PAC-Bayes risk-certificate pipeline (clean reimplementation of PBB with corrected sample accounting, joint confidence, MC aggregation and seed control)."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+dependencies = ["torch", "torchvision", "numpy", "PyYAML", "matplotlib", "tqdm"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

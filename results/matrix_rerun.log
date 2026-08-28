@@ -1,0 +1,159 @@
+matrix: 85 cells over 2 GPUs, started 2026-08-08 18:53:46
+[gpu0 18:53:46] START cifar10_bbb_learnt_cnn_seed0
+[gpu1 18:53:46] START cifar10_bbb_learnt_cnn_seed1
+[gpu1 20:01:34] DONE  cifar10_bbb_learnt_cnn_seed1 cert=? 4068s
+[gpu1 20:01:34] START cifar10_bbb_learnt_cnn_seed3
+[gpu0 20:01:43] DONE  cifar10_bbb_learnt_cnn_seed0 cert=? 4077s
+[gpu0 20:01:43] START cifar10_bbb_learnt_cnn_seed2
+[gpu1 21:08:42] DONE  cifar10_bbb_learnt_cnn_seed3 cert=? 4028s
+[gpu1 21:08:42] START cifar10_fclassic_learnt_cnn_seed0
+[gpu0 21:09:04] DONE  cifar10_bbb_learnt_cnn_seed2 cert=? 4041s
+[gpu0 21:09:04] START cifar10_bbb_learnt_cnn_seed4
+[gpu1 22:16:03] DONE  cifar10_fclassic_learnt_cnn_seed0 cert=? 4041s
+[gpu1 22:16:03] START cifar10_fclassic_learnt_cnn_seed2
+[gpu0 22:16:19] DONE  cifar10_bbb_learnt_cnn_seed4 cert=? 4035s
+[gpu0 22:16:19] START cifar10_fclassic_learnt_cnn_seed1
+[gpu1 23:23:36] DONE  cifar10_fclassic_learnt_cnn_seed2 cert=? 4053s
+[gpu1 23:23:36] START cifar10_fclassic_learnt_cnn_seed4
+[gpu0 23:23:58] DONE  cifar10_fclassic_learnt_cnn_seed1 cert=? 4059s
+[gpu0 23:23:58] START cifar10_fclassic_learnt_cnn_seed3
+[gpu1 00:31:07] DONE  cifar10_fclassic_learnt_cnn_seed4 cert=? 4051s
+[gpu1 00:31:08] START cifar10_fquad_learnt_cnn_seed1
+[gpu0 00:31:35] DONE  cifar10_fclassic_learnt_cnn_seed3 cert=? 4057s
+[gpu0 00:31:35] START cifar10_fquad_learnt_cnn_seed0
+[gpu1 01:38:29] DONE  cifar10_fquad_learnt_cnn_seed1 cert=? 4041s
+[gpu1 01:38:29] START cifar10_fquad_learnt_cnn_seed3
+[gpu0 01:39:01] DONE  cifar10_fquad_learnt_cnn_seed0 cert=? 4046s
+[gpu0 01:39:01] START cifar10_fquad_learnt_cnn_seed2
+[gpu1 02:45:50] DONE  cifar10_fquad_learnt_cnn_seed3 cert=? 4041s
+[gpu1 02:45:50] START cifar10_fquad_learnt_cnn13_seed0
+[gpu0 02:46:26] DONE  cifar10_fquad_learnt_cnn_seed2 cert=? 4045s
+[gpu0 02:46:26] START cifar10_fquad_learnt_cnn_seed4
+[gpu0 03:53:55] DONE  cifar10_fquad_learnt_cnn_seed4 cert=? 4049s
+[gpu0 03:53:55] START cifar10_fquad_learnt_cnn13_seed1
+[gpu1 04:36:28] DONE  cifar10_fquad_learnt_cnn13_seed0 cert=? 6638s
+[gpu1 04:36:28] START cifar10_fquad_learnt_cnn13_seed2
+[gpu0 05:43:23] DONE  cifar10_fquad_learnt_cnn13_seed1 cert=? 6568s
+[gpu0 05:43:23] START cifar10_fquad_learnt_cnn13_seed3
+[gpu1 06:25:50] DONE  cifar10_fquad_learnt_cnn13_seed2 cert=? 6562s
+[gpu1 06:25:50] START cifar10_fquad_learnt_cnn13_seed4
+[gpu0 07:32:28] DONE  cifar10_fquad_learnt_cnn13_seed3 cert=? 6545s
+[gpu0 07:32:28] START cifar10_fquad_learnt_cnn15_seed0
+[gpu1 08:15:24] DONE  cifar10_fquad_learnt_cnn13_seed4 cert=? 6574s
+[gpu1 08:15:24] START cifar10_fquad_learnt_cnn15_seed1
+[gpu0 09:47:20] DONE  cifar10_fquad_learnt_cnn15_seed0 cert=? 8092s
+[gpu0 09:47:21] START cifar10_fquad_learnt_cnn15_seed2
+[gpu1 10:30:30] DONE  cifar10_fquad_learnt_cnn15_seed1 cert=? 8106s
+[gpu1 10:30:30] START cifar10_fquad_learnt_cnn15_seed3
+[gpu0 12:03:21] DONE  cifar10_fquad_learnt_cnn15_seed2 cert=? 8160s
+[gpu0 12:03:22] START cifar10_fquad_learnt_cnn15_seed4
+[gpu1 12:47:36] DONE  cifar10_fquad_learnt_cnn15_seed3 cert=? 8226s
+[gpu1] SKIP  cifar10_fquad_rand_cnn_seed0
+[gpu1] SKIP  cifar10_fquad_rand_cnn_seed2
+[gpu1] SKIP  cifar10_fquad_rand_cnn_seed4
+[gpu1 12:47:36] START fashion-mnist_bbb_learnt_fcn_seed1
+[gpu1 13:05:49] DONE  fashion-mnist_bbb_learnt_fcn_seed1 cert=? 1093s
+[gpu1 13:05:49] START fashion-mnist_bbb_learnt_fcn_seed3
+[gpu1 13:23:55] DONE  fashion-mnist_bbb_learnt_fcn_seed3 cert=? 1086s
+[gpu1 13:23:55] START fashion-mnist_fclassic_learnt_fcn_seed0
+[gpu1 13:43:07] DONE  fashion-mnist_fclassic_learnt_fcn_seed0 cert=? 1152s
+[gpu1 13:43:07] START fashion-mnist_fclassic_learnt_fcn_seed2
+[gpu1 14:02:20] DONE  fashion-mnist_fclassic_learnt_fcn_seed2 cert=? 1153s
+[gpu1 14:02:20] START fashion-mnist_fclassic_learnt_fcn_seed4
+[gpu0 14:20:49] DONE  cifar10_fquad_learnt_cnn15_seed4 cert=? 8248s
+[gpu0] SKIP  cifar10_fquad_rand_cnn_seed1
+[gpu0] SKIP  cifar10_fquad_rand_cnn_seed3
+[gpu0 14:20:50] START fashion-mnist_bbb_learnt_fcn_seed0
+[gpu1 14:21:39] DONE  fashion-mnist_fclassic_learnt_fcn_seed4 cert=? 1159s
+[gpu1 14:21:39] START fashion-mnist_fquad_learnt_cnn_seed1
+[gpu0 14:38:40] DONE  fashion-mnist_bbb_learnt_fcn_seed0 cert=? 1070s
+[gpu0 14:38:40] START fashion-mnist_bbb_learnt_fcn_seed2
+[gpu1 14:48:51] DONE  fashion-mnist_fquad_learnt_cnn_seed1 cert=? 1632s
+[gpu1 14:48:52] START fashion-mnist_fquad_learnt_cnn_seed3
+[gpu0 14:55:55] DONE  fashion-mnist_bbb_learnt_fcn_seed2 cert=? 1035s
+[gpu0 14:55:55] START fashion-mnist_bbb_learnt_fcn_seed4
+[gpu0 15:13:10] DONE  fashion-mnist_bbb_learnt_fcn_seed4 cert=? 1035s
+[gpu0 15:13:10] START fashion-mnist_fclassic_learnt_fcn_seed1
+[gpu1 15:15:17] DONE  fashion-mnist_fquad_learnt_cnn_seed3 cert=? 1585s
+[gpu1 15:15:17] START fashion-mnist_fquad_learnt_fcn_seed0
+[gpu0 15:31:33] DONE  fashion-mnist_fclassic_learnt_fcn_seed1 cert=? 1103s
+[gpu0 15:31:33] START fashion-mnist_fclassic_learnt_fcn_seed3
+[gpu1 15:33:05] DONE  fashion-mnist_fquad_learnt_fcn_seed0 cert=? 1068s
+[gpu1 15:33:05] START fashion-mnist_fquad_learnt_fcn_seed2
+[gpu0 15:49:40] DONE  fashion-mnist_fclassic_learnt_fcn_seed3 cert=? 1088s
+[gpu0 15:49:41] START fashion-mnist_fquad_learnt_cnn_seed0
+[gpu1 15:50:43] DONE  fashion-mnist_fquad_learnt_fcn_seed2 cert=? 1058s
+[gpu1 15:50:43] START fashion-mnist_fquad_learnt_fcn_seed4
+[gpu1 16:08:27] DONE  fashion-mnist_fquad_learnt_fcn_seed4 cert=? 1063s
+[gpu1] SKIP  fashion-mnist_fquad_rand_fcn_seed1
+[gpu1] SKIP  fashion-mnist_fquad_rand_fcn_seed3
+[gpu1 16:08:27] START mnist_bbb_learnt_fcn_seed0
+[gpu0 16:16:16] DONE  fashion-mnist_fquad_learnt_cnn_seed0 cert=? 1595s
+[gpu0 16:16:16] START fashion-mnist_fquad_learnt_cnn_seed2
+[gpu1 16:26:03] DONE  mnist_bbb_learnt_fcn_seed0 cert=? 1055s
+[gpu1 16:26:03] START mnist_bbb_learnt_fcn_seed2
+[gpu0 16:42:54] DONE  fashion-mnist_fquad_learnt_cnn_seed2 cert=? 1598s
+[gpu0 16:42:54] START fashion-mnist_fquad_learnt_cnn_seed4
+[gpu1 16:43:50] DONE  mnist_bbb_learnt_fcn_seed2 cert=? 1067s
+[gpu1 16:43:50] START mnist_bbb_learnt_fcn_seed4
+[gpu1 17:01:41] DONE  mnist_bbb_learnt_fcn_seed4 cert=? 1071s
+[gpu1 17:01:41] START mnist_fclassic_learnt_fcn_seed1
+[gpu0 17:09:22] DONE  fashion-mnist_fquad_learnt_cnn_seed4 cert=? 1588s
+[gpu0 17:09:22] START fashion-mnist_fquad_learnt_fcn_seed1
+[gpu1 17:20:38] DONE  mnist_fclassic_learnt_fcn_seed1 cert=? 1137s
+[gpu1 17:20:39] START mnist_fclassic_learnt_fcn_seed3
+[gpu0 17:26:53] DONE  fashion-mnist_fquad_learnt_fcn_seed1 cert=? 1051s
+[gpu0 17:26:53] START fashion-mnist_fquad_learnt_fcn_seed3
+[gpu1 17:39:30] DONE  mnist_fclassic_learnt_fcn_seed3 cert=? 1131s
+[gpu1 17:39:30] START mnist_flamb_learnt_fcn_seed0
+[gpu0 17:44:38] DONE  fashion-mnist_fquad_learnt_fcn_seed3 cert=? 1065s
+[gpu0] SKIP  fashion-mnist_fquad_rand_fcn_seed0
+[gpu0] SKIP  fashion-mnist_fquad_rand_fcn_seed2
+[gpu0] SKIP  fashion-mnist_fquad_rand_fcn_seed4
+[gpu0 17:44:38] START mnist_bbb_learnt_fcn_seed1
+[gpu0 18:02:02] DONE  mnist_bbb_learnt_fcn_seed1 cert=? 1044s
+[gpu0 18:02:02] START mnist_bbb_learnt_fcn_seed3
+[gpu1 18:11:13] DONE  mnist_flamb_learnt_fcn_seed0 cert=? 1902s
+[gpu1 18:11:13] START mnist_flamb_learnt_fcn_seed2
+[gpu0 18:19:28] DONE  mnist_bbb_learnt_fcn_seed3 cert=? 1046s
+[gpu0 18:19:28] START mnist_fclassic_learnt_fcn_seed0
+[gpu0 18:38:26] DONE  mnist_fclassic_learnt_fcn_seed0 cert=? 1138s
+[gpu0 18:38:26] START mnist_fclassic_learnt_fcn_seed2
+[gpu1 18:42:38] DONE  mnist_flamb_learnt_fcn_seed2 cert=? 1885s
+[gpu1 18:42:38] START mnist_flamb_learnt_fcn_seed4
+[gpu0 18:56:37] DONE  mnist_fclassic_learnt_fcn_seed2 cert=? 1091s
+[gpu0 18:56:37] START mnist_fclassic_learnt_fcn_seed4
+[gpu1 19:13:48] DONE  mnist_flamb_learnt_fcn_seed4 cert=? 1869s
+[gpu1 19:13:48] START mnist_fquad_learnt_cnn_seed1
+[gpu0 19:14:50] DONE  mnist_fclassic_learnt_fcn_seed4 cert=? 1093s
+[gpu0 19:14:50] START mnist_flamb_learnt_fcn_seed1
+[gpu1 19:40:10] DONE  mnist_fquad_learnt_cnn_seed1 cert=? 1582s
+[gpu1 19:40:10] START mnist_fquad_learnt_cnn_seed3
+[gpu0 19:45:19] DONE  mnist_flamb_learnt_fcn_seed1 cert=? 1829s
+[gpu0 19:45:19] START mnist_flamb_learnt_fcn_seed3
+[gpu1 20:06:33] DONE  mnist_fquad_learnt_cnn_seed3 cert=? 1583s
+[gpu1 20:06:33] START mnist_fquad_learnt_fcn_seed0
+[gpu0 20:17:11] DONE  mnist_flamb_learnt_fcn_seed3 cert=? 1912s
+[gpu0 20:17:11] START mnist_fquad_learnt_cnn_seed0
+[gpu1 20:24:18] DONE  mnist_fquad_learnt_fcn_seed0 cert=? 1065s
+[gpu1 20:24:18] START mnist_fquad_learnt_fcn_seed2
+[gpu1 20:42:01] DONE  mnist_fquad_learnt_fcn_seed2 cert=? 1063s
+[gpu1 20:42:01] START mnist_fquad_learnt_fcn_seed4
+[gpu0 20:43:20] DONE  mnist_fquad_learnt_cnn_seed0 cert=? 1569s
+[gpu0 20:43:20] START mnist_fquad_learnt_cnn_seed2
+[gpu1 20:59:50] DONE  mnist_fquad_learnt_fcn_seed4 cert=? 1069s
+[gpu1] SKIP  mnist_fquad_rand_fcn_seed1
+[gpu1] SKIP  mnist_fquad_rand_fcn_seed3
+[gpu1] LANE COMPLETE
+[gpu0 21:09:17] DONE  mnist_fquad_learnt_cnn_seed2 cert=? 1557s
+[gpu0 21:09:17] START mnist_fquad_learnt_cnn_seed4
+[gpu0 21:34:56] DONE  mnist_fquad_learnt_cnn_seed4 cert=? 1539s
+[gpu0 21:34:57] START mnist_fquad_learnt_fcn_seed1
+[gpu0 21:51:50] DONE  mnist_fquad_learnt_fcn_seed1 cert=? 1013s
+[gpu0 21:51:50] START mnist_fquad_learnt_fcn_seed3
+[gpu0 22:08:40] DONE  mnist_fquad_learnt_fcn_seed3 cert=? 1010s
+[gpu0] SKIP  mnist_fquad_rand_fcn_seed0
+[gpu0] SKIP  mnist_fquad_rand_fcn_seed2
+[gpu0] SKIP  mnist_fquad_rand_fcn_seed4
+[gpu0] LANE COMPLETE
+MATRIX COMPLETE 2026-08-09 22:08:40

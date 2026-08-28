@@ -1,0 +1,1 @@
+OK {"run_id": "mnist_bbb_learnt_fcn_seed3", "n_bound": 30000, "n_posterior": 60000, "cert_risk_01": 0.27602, "kl": 7864.6187, "joint_confidence": 0.99, "test_stoch_01": 0.0196, "duration_sec": 1038.7}
