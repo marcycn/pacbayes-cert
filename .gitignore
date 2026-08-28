@@ -17,3 +17,4 @@ paper/muthesis/*.out
 paper/muthesis/*.run.xml
 paper/muthesis/*.toc
 .DS_Store
+paper/
