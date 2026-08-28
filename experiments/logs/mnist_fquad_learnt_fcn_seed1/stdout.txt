@@ -1,4 +1,0 @@
--Prior: Test loss: 0.07869, Test err:  0.01970
-***Final results***
-Objective, Dataset, Sigma, pmin, LR, momentum, LR_prior, momentum_prior, kl_penalty, dropout, Obj_train, Risk_CE, Risk_01, KL, Train NLL loss, Train 01 error, Stch loss, Stch 01 error, Post mean loss, Post mean 01 error, Ens loss, Ens 01 error, 01 error prior net, perc_train, perc_prior
-fquad, mnist, 0.03000, 0.00001, 0.00500, 0.95000, 0.00500, 0.99000,  0.10000, 0.20000, 0.01482, 0.02127, 0.03867, 0.00275, 0.01121, 0.02485, 0.00877, 0.02240, 0.00391, 0.01790, 0.00017, 0.01740, 0.01970, 1.00000, 0.50000

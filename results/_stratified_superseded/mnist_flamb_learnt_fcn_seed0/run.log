@@ -1,1 +1,0 @@
-OK {"run_id": "mnist_flamb_learnt_fcn_seed0", "n_bound": 30000, "n_posterior": 60000, "cert_risk_01": 0.0781, "kl": 599.5887, "joint_confidence": 0.99, "test_stoch_01": 0.02, "duration_sec": 1923.4}

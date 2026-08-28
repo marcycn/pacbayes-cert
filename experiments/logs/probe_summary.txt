@@ -1,4 +1,0 @@
-PROBE_DONE 2026-06-24 06:11:54
-sigma=0.05 OK {"run_id": "probe_sigma0.05", "Risk_CE": "0.23844", "Risk_01": "0.36638", "Stch_01": "0.09970", "PostMean_01": "0.05480", "Ens_01": "0.05600", "duration_sec": 1203.7}
-sigma=0.02 OK {"run_id": "probe_sigma0.02", "Risk_CE": "0.24839", "Risk_01": "0.36758", "Stch_01": "0.09550", "PostMean_01": "0.06990", "Ens_01": "0.07190", "duration_sec": 1247.8}
-sigma=0.01 OK {"run_id": "probe_sigma0.01", "Risk_CE": "0.36790", "Risk_01": "0.48389", "Stch_01": "0.11090", "PostMean_01": "0.09950", "Ens_01": "0.10040", "duration_sec": 1245.7}

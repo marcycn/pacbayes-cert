@@ -1,1 +1,0 @@
-OK {"run_id": "cifar10_fquad_learnt_cnn15_seed0", "n_bound": 25000, "n_posterior": 50000, "cert_risk_01": 0.94324, "kl": 93.9739, "joint_confidence": 0.99, "test_stoch_01": 0.9003, "duration_sec": 8133.4}

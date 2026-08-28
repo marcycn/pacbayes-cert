@@ -155,7 +155,11 @@ correctness of the risk certificates and on the reproducibility of the
 experimental pipeline. This work
 builds on the open-source PAC-Bayes-with-Backprop implementation of
 P\'erez-Ortiz et al.\ (2021); the public MNIST, Fashion-MNIST and CIFAR-10
-benchmarks were used throughout.
+benchmarks were used throughout. Generative AI tools were used in the course
+of the project: OpenAI Codex to review the experiment code before the
+experiments were run, and GPT-5.6, through the ChatGPT interface, to review
+this report and to edit its language. Their use is declared in full in the
+accompanying declaration of generative AI use.
 \end{uomacknowledgements}
 
 
@@ -220,11 +224,11 @@ benchmarks were used throughout.
     measure spread would have left that correction untested.
 
     \section{Reproduction}\label{app:repro}
-    The artefact accompanying this dissertation is deposited at [artefact locator];
+    The artefact accompanying this dissertation is deposited at \url{https://github.com/marcycn/pacbayes-cert};
     the version reported here is the one tagged there. Its layout is
     \texttt{src/pacbayes\_cert/} for the package, \texttt{configs/} for one YAML
     file per headline cell named
-    \texttt{<dataset>\_<objective>\_<prior>\_<model>.yaml},
+    \texttt{<dataset>\_\allowbreak <objective>\_\allowbreak <prior>\_\allowbreak <model>.yaml},
     \texttt{tests/} for the suite of Table~\ref{tab:tests}, \texttt{scripts/} for
     the orchestration, aggregation, figure and table steps, \texttt{results/raw/}
     for one directory per run holding its resolved configuration, split indices,
@@ -234,7 +238,7 @@ benchmarks were used throughout.
     vendored reference implementation, and \texttt{legacy\_invalidated/} for the
     pre-correction outputs. A single run, the full matrix, the tests and the
     derived outputs are reproduced by
-    \begin{quote}\small\ttfamily
+    \begin{quote}\footnotesize\ttfamily
     python run.py -{}-config configs/mnist\_fquad\_learnt\_fcn.yaml -{}-base-seed 0\\
     SEEDS="0 1 2 3 4" bash scripts/run\_matrix.sh\\
     pytest tests/\\

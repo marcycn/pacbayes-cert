@@ -1,7 +1,0 @@
-# Progress in Self-Certified Neural Networks
-
-- **Authors:** María Pérez-Ortiz, Omar Rivasplata, Emilio Parrado-Hernández, Benjamin Guedj, John Shawe-Taylor
-- **Venue/Year:** NeurIPS 2021 Workshop on Bayesian Deep Learning (BDL) (arXiv:2111.07737) (2021)
-- **ID:** arXiv:2111.07737 — ✓ verified
-- **Contribution:** Defines 'self-certified' learning as using ALL available data to simultaneously learn a predictor and certify its risk with a valid numerical certificate. Empirically compares (on 4 classification datasets) classical test-set bounds for deterministic predictors against a PAC-Bayes bound for randomised self-certified predictors. Shows both bounds stay close to true test error, AND crucially in data-starvation/small-data regimes holding out data for test-set bounds hurts generalisation while self-certified PAC-Bayes bounds do not, while yielding certificates surprisingly competitive with test-set bounds.
-- **Relevance to our RQ:** STRONGEST NOVELTY THREAT to H2: this directly establishes H2 (self-certified beats hold-out test bound in small data) and partially covers H3 (cross-dataset comparison). Our H2 is essentially pre-empted. Residual gaps we can still claim: (a) systematic MNIST->Fashion-MNIST->CIFAR-10 progression as a single controlled tightness-degradation study, (b) coupling with the objective comparison (fquad/flambda/fclassic) and predictor-rule comparison within the small-data regime, which this workshop paper does NOT do. Same code lineage as PBB. Must cite as primary prior statement of H2.
